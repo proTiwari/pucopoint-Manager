@@ -1,0 +1,254 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="data"
+            type="com.pucosa.pucopointManager.ui.newOnboarding.NewOnboardingViewModel" />
+    </data>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/onboarding_shopkeeper_info"
+tools:context=".ui.newOnboarding.pages.OnboardingShopkeeperInfo">
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:text="UPLOAD SHOPKEEPER DETAIL"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="50dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:context="com.example.android.navigation.MainActivity"
+            tools:ignore="HardcodedText">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/name"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="15dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/Name"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginEnd="16dp"
+                    android:hint="Name"
+                    android:inputType="text"
+                    android:text="@={data.data.name}" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/Email"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/name"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="10dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/email"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginEnd="16dp"
+                    android:hint="Email"
+                    android:inputType="textEmailAddress"
+                    android:text="@={data.data.email}" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/country_code_container"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="wrap_content"
+                android:layout_height="63dp"
+                android:layout_below="@+id/Email"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="10dp"
+                android:layout_toStartOf="@+id/phone"
+                android:clickable="true"
+                android:focusable="true"
+                android:text="Country"
+                app:endIconDrawable="@drawable/ic_baseline_arrow_drop_down_24"
+                app:endIconMode="custom"
+                app:errorEnabled="true"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/country_code_input"
+                    android:layout_width="99dp"
+                    android:layout_height="53.2dp"
+                    android:clickable="true"
+                    android:focusable="false"
+                    android:imeOptions="actionDone"
+                    android:inputType="none"
+                    android:text="@={data.countryCode1}" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+
+                android:id="@+id/phone"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="270dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/Email"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/country_code_container"
+                app:startIconDrawable="@drawable/ic_baseline_phone_24">
+
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/Phone"
+                    android:layout_width="270dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginEnd="16dp"
+                    android:hint="Phone no."
+                    android:inputType="phone"
+                    android:text="@={data.data.phoneNum}" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/Alt_country_code_container"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="wrap_content"
+                android:layout_height="63dp"
+                android:layout_below="@+id/country_code_container"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="10dp"
+                android:layout_toStartOf="@+id/phone"
+                android:clickable="true"
+                android:focusable="true"
+                app:endIconDrawable="@drawable/ic_baseline_arrow_drop_down_24"
+                app:endIconMode="custom"
+                app:errorEnabled="true"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/Alt_country_code_input"
+                    android:layout_width="99dp"
+                    android:layout_height="53.2dp"
+                    android:clickable="true"
+                    android:focusable="false"
+                    android:imeOptions="actionDone"
+                    android:inputType="none"
+                    android:text="@={data.countryCode2}" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+
+                android:id="@+id/alternatePhone"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="270dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/phone"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/country_code_container"
+                app:startIconDrawable="@drawable/ic_baseline_phone_24">
+
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/AlternatePhone"
+                    android:layout_width="270dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginEnd="16dp"
+                    android:hint="Alt Phone no."
+                    android:inputType="phone"
+                    android:text="@={data.data.altNum}" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/uploadimage"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+                android:layout_width="262dp"
+                android:layout_height="37dp"
+                android:layout_below="@+id/alternatePhone"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="72dp"
+                android:layout_marginTop="56dp"
+                android:layout_marginEnd="77dp"
+                android:text="upload shopkeeper image" />
+
+            <ImageView
+                android:id="@+id/userimage"
+                android:layout_width="380dp"
+                android:layout_height="381dp"
+                android:layout_below="@+id/alternatePhone"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="17dp"
+                android:layout_marginLeft="200dp"
+                android:layout_marginTop="310dp"
+                android:layout_marginEnd="14dp"
+                android:layout_marginBottom="56dp"
+                android:contentDescription="click to upload"
+                android:contextClickable="true" />
+
+            <Button
+                android:id="@+id/back"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="130dp"
+                android:layout_height="59dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="28dp"
+                android:text="back" />
+
+            <Button
+                android:id="@+id/proceedButton"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="130dp"
+                android:layout_height="59dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginRight="28dp"
+                android:text="proceed" />
+
+
+        </RelativeLayout>
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

@@ -1,0 +1,31 @@
+Microsoft Windows [Version 10.0.22000.434]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\prosh>cd C:\Program Files\Java\jre1.8.0_311\bin
+
+C:\Program Files\Java\jre1.8.0_311\bin>keytool -list -v -keystore C:\Users\prosh\AndroidStudioProjects\PucoreadsAdmin\debug.keystore.jks -alias debugkey -storepass pucopointmanager -keypass pucopointmanager
+Alias name: debugkey
+Creation date: Feb 3, 2022
+Entry type: PrivateKeyEntry
+Certificate chain length: 1
+Certificate[1]:
+Owner: CN=Shubham Singh, OU=Pucoreads, O=Pucosa, L=Allahabad, ST=UP, C=IN
+Issuer: CN=Shubham Singh, OU=Pucoreads, O=Pucosa, L=Allahabad, ST=UP, C=IN
+Serial number: 58c8fdfa
+Valid from: Thu Feb 03 15:05:56 IST 2022 until: Mon Jan 28 15:05:56 IST 2047
+Certificate fingerprints:
+         SHA1: 55:04:48:CF:17:10:D7:49:72:B6:58:CF:31:EA:D9:B6:54:7A:B1:13
+         SHA256: 3D:5C:2F:E4:B8:41:13:C3:26:6F:2F:AC:F1:AF:CA:08:53:95:E6:A1:CB:97:08:11:6D:E2:6E:39:FA:CE:1D:68
+Signature algorithm name: SHA256withRSA
+Subject Public Key Algorithm: 2048-bit RSA key
+Version: 3
+
+Extensions:
+
+#1: ObjectId: 2.5.29.14 Criticality=false
+SubjectKeyIdentifier [
+KeyIdentifier [
+0000: CC A1 78 44 00 ED B3 4B   0C F2 40 E3 D8 5B 9B B8  ..xD...K..@..[..
+0010: 50 DD C3 8B                                        P...
+]
+]

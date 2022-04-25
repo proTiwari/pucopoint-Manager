@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/login2">
+
+    <fragment
+        android:id="@+id/onboarding_shopkeeper_info"
+        android:name="com.pucosa.pucopointManager.ui.newOnboarding.pages.OnboardingShopkeeperInfo"
+        android:label="fragment_onboarding_shopkeeper_info"
+        tools:layout="@layout/fragment_onboarding_shopkeeper_info" >
+        <action
+            android:id="@+id/action_onboarding_shopkeeper_info_to_onboarding_shop_info"
+            app:destination="@id/onboarding_shop_info" />
+        <action
+            android:id="@+id/action_onboarding_shopkeeper_info_to_pucoPointList"
+            app:destination="@id/pucoPointList" />
+    </fragment>
+    <fragment
+        android:id="@+id/onboarding_shop_info"
+        android:name="com.pucosa.pucopointManager.ui.newOnboarding.pages.OnboardingShopInfo"
+        android:label="fragment_onboarding_shop_info"
+        tools:layout="@layout/fragment_onboarding_shop_info" >
+        <action
+            android:id="@+id/action_onboarding_shop_info_to_shopImageFragment"
+            app:destination="@id/shopImageFragment" />
+        <action
+            android:id="@+id/action_onboarding_shop_info_to_onboarding_shopkeeper_info"
+            app:destination="@id/onboarding_shopkeeper_info" />
+    </fragment>
+    <fragment
+        android:id="@+id/onboarding_agreement"
+        android:name="com.pucosa.pucopointManager.ui.newOnboarding.pages.OnboardingAgreement"
+        android:label="fragment_onboarding_agreement"
+        tools:layout="@layout/fragment_onboarding_agreement" >
+        <action
+            android:id="@+id/action_onboarding_agreement_to_pucoPointList"
+            app:destination="@id/pucoPointList"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"/>
+        <action
+            android:id="@+id/action_onboarding_agreement_to_progressBar"
+            app:destination="@id/progressBar" />
+    </fragment>
+    <fragment
+        android:id="@+id/pucoPointList"
+        android:name="com.pucosa.pucopointManager.ui.newOnboarding.pages.PucopointList"
+        android:label="fragment_puco_point_list"
+        tools:layout="@layout/pucopoint_list" >
+        <action
+            android:id="@+id/action_pucoPointList_to_onboarding_shopkeeper_info"
+            app:destination="@id/onboarding_shopkeeper_info" />
+        <action
+            android:id="@+id/action_pucoPointList_to_shopkeeperFullDetail"
+            app:destination="@id/shopkeeperFullDetail" />
+        <action
+            android:id="@+id/action_pucoPointList_to_paymentList"
+            app:destination="@id/paymentFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/login2"
+        android:name="com.pucosa.pucopointManager.ui.login.Login"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_login2_to_pucoPointList"
+            app:destination="@id/pucoPointList"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/login2"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/shopkeeperFullDetail"
+        android:name="com.pucosa.pucopointManager.ui.newOnboarding.pages.siglePageAdapter.ShopkeeperFullDetail"
+        android:label="page_adapter_fragment"
+        tools:layout="@layout/pucopoint_full_detail" >
+        <argument
+            android:name="pucopoint"
+            app:argType="com.pucosa.pucopointManager.models.Pucopoint" />
+        <action
+            android:id="@+id/action_shopkeeperFullDetail_to_pucoPointList"
+            app:destination="@id/pucoPointList" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_login2"
+        app:destination="@id/login2"
+        app:popUpTo="@id/nav_graph"
+        app:popUpToInclusive="true" />
+    <fragment
+        android:id="@+id/aadarFragment"
+        android:name="com.pucosa.pucopointManager.ui.newOnboarding.pages.AadharFragment"
+        android:label="fragment_aadar"
+        tools:layout="@layout/fragment_aadar" >
+        <action
+            android:id="@+id/action_aadarFragment_to_onboarding_agreement"
+            app:destination="@id/onboarding_agreement" />
+        <action
+            android:id="@+id/action_aadarFragment_to_shopImageFragment"
+            app:destination="@id/shopImageFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/shopImageFragment"
+        android:name="com.pucosa.pucopointManager.ui.newOnboarding.pages.ShopImageFragment"
+        android:label="fragment_shop_image"
+        tools:layout="@layout/fragment_shop_image" >
+        <action
+            android:id="@+id/action_shopImageFragment_to_aadarFragment"
+            app:destination="@id/aadarFragment" />
+        <action
+            android:id="@+id/action_shopImageFragment_to_onboarding_shop_info"
+            app:destination="@id/onboarding_shop_info" />
+    </fragment>
+    <fragment
+        android:id="@+id/paymentFullDetail"
+        android:name="com.pucosa.pucopointManager.ui.dashboard.payment.PaymentFullDetail"
+        android:label="fragment_payment_full_detail"
+        tools:layout="@layout/fragment_payment_full_detail" >
+        <argument
+            android:name="paymentfulldetail"
+            app:argType="com.pucosa.pucopointManager.models.Payment" />
+        <action
+            android:id="@+id/action_paymentFullDetail_to_paymentList"
+            app:destination="@id/paymentFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/progressBar"
+        android:name="com.pucosa.pucopointManager.ui.newOnboarding.pages.ProgressBar"
+        android:label="fragment_progress_bar"
+        tools:layout="@layout/fragment_progress_bar" >
+        <action
+            android:id="@+id/action_progressBar_to_pucoPointList"
+            app:destination="@id/pucoPointList" />
+    </fragment>
+    <fragment
+        android:id="@+id/paymentFragment"
+        android:name="com.pucosa.pucopointManager.ui.payments.PaymentsFragment"
+        android:label="Payments"
+        tools:layout="@layout/fragment_payments" >
+        <action
+            android:id="@+id/action_paymentFragment_to_paymentFullDetail"
+            app:destination="@id/paymentFullDetail" />
+        <action
+            android:id="@+id/action_paymentFragment_to_pucoPointList"
+            app:destination="@id/pucoPointList" />
+        <action
+            android:id="@+id/action_paymentFragment_to_onboarding_shopkeeper_info2"
+            app:destination="@id/onboarding_shopkeeper_info" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_pucoPointList"
+        app:destination="@id/pucoPointList"
+        app:popUpTo="@id/nav_graph"
+        app:popUpToInclusive="true" />
+</navigation>

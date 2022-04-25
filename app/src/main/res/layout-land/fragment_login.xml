@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<layout xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="data"
+            type="com.pucosa.pucopointManager.ui.login.LoginViewModel" />
+    </data>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/login"
+    tools:context=".ui.login.Login">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="156dp"
+            android:background="@drawable/blue_bg">
+
+            <ProgressBar
+                android:id="@+id/progressbar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                android:max="100"
+                android:backgroundTint="@color/white"
+                android:indeterminateTint="#E8C30C"
+                android:layout_marginTop="-7dp"/>
+
+            <ImageView
+                android:layout_width="77dp"
+                android:layout_height="77dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="33dp"
+                android:src="@drawable/ic_pucosa_logo" />
+
+        </FrameLayout>
+
+        <RelativeLayout
+            android:layout_width="305dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="0dp"
+            android:layout_marginRight="62dp"
+            android:background="@drawable/blue_border_rounded_cornwe">
+
+            <EditText
+                android:id="@+id/Edt_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/username_icon"
+                android:background="@android:color/transparent"
+                android:fontFamily="@font/poppins_regular"
+                android:hint="Email"
+                android:text="@={data.email}"
+                android:inputType="textEmailAddress"
+                android:maxLines="1"
+                android:paddingLeft="17dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:textColor="@android:color/black"
+                android:textCursorDrawable="@drawable/cursor_color"
+                android:textSize="16dp" />
+
+
+            <ImageView
+                android:id="@+id/username_icon"
+                android:layout_width="16.7dp"
+                android:layout_height="12.3dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="17dp"
+                android:src="@drawable/email" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_gravity="center_horizontal"
+
+            android:layout_width="305dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginRight="62dp"
+            android:background="@drawable/blue_border_rounded_cornwe">
+
+
+            <EditText
+                android:id="@+id/Edt_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/icon"
+                android:background="@android:color/transparent"
+                android:fontFamily="@font/poppins_regular"
+                android:hint="Password"
+                android:text="@={data.password}"
+                android:paddingStart="17dp"
+                android:inputType="textPassword"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:textColor="@android:color/black"
+                android:textCursorDrawable="@drawable/cursor_color"
+                android:textSize="16sp"
+               />
+
+            <ImageView
+                android:id="@+id/icon"
+                android:layout_width="16.7dp"
+                android:layout_height="12.3dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="17dp"
+                android:src="@drawable/password" />
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/loginId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Login"
+            android:textColor="@android:color/black"
+            android:layout_gravity="center_horizontal"
+            style="?attr/materialButtonOutlinedStyle"
+            />
+
+    </LinearLayout>
+
+</RelativeLayout>
+
+</layout>
+
+
+
+
+
+
+
+
+

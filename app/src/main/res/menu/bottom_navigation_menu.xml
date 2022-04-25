@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/payment"
+        android:icon="@drawable/ic_baseline_account_balance_24"
+        android:onClick="payment"
+        android:title="payment"/>
+
+    <item
+        android:id="@+id/logout_item"
+        android:icon="@drawable/ic_baseline_arrow_back_ios_24"
+        android:onClick="onLogoutClicked"
+        android:title="Logout"/>
+
+</menu>

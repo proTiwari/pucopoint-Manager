@@ -1,0 +1,241 @@
+package com.pucosa.pucopointManager.ui.newOnboarding.pages
+
+import android.annotation.SuppressLint
+import android.content.Context
+import android.net.Uri
+import android.os.Bundle
+import android.util.Log
+import android.util.Patterns
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
+import android.widget.Toast
+import androidx.core.view.isGone
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.*
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import com.hbb20.countrypicker.dialog.launchCountryPickerDialog
+import com.pucosa.pucopointManager.R
+import com.pucosa.pucopointManager.databinding.FragmentOnboardingShopkeeperInfoBinding
+import com.pucosa.pucopointManager.models.Pucopoint
+import com.pucosa.pucopointManager.ui.newOnboarding.NewOnboardingViewModel
+import com.pucosa.pucopointManager.utils.ImageCaptureManager
+import java.util.regex.Pattern
+import kotlin.math.log10
+
+
+class OnboardingShopkeeperInfo : Fragment() {
+    var phoneCountryCode = ""
+    var phoneNum = ""
+    var altCountryCode = ""
+    var altNum = ""
+    private lateinit var username: String
+    private lateinit var imageCaptureManager: ImageCaptureManager
+    private var aadharUri: Uri = Uri.EMPTY
+    private var shopkeeperUri: Uri = Uri.EMPTY
+    private var aadharImageUrl: Uri? = null
+    lateinit var viewModel: NewOnboardingViewModel
+    private var shopkeeperImageUrl: Uri? = null
+    var countryCode = ""
+    var altcountryCode = ""
+    private lateinit var binding: FragmentOnboardingShopkeeperInfoBinding
+    private var navController: NavController?= null
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?,
+    ): View {
+        // Inflate the layout for this fragment
+        binding = FragmentOnboardingShopkeeperInfoBinding.inflate(inflater, container, false)
+        viewModel = ViewModelProvider(requireActivity())[NewOnboardingViewModel::class.java]
+        binding.data = viewModel
+        binding.lifecycleOwner = this
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        navController = Navigation.findNavController(view)
+        binding.back.setOnClickListener{
+            navController?.navigate(R.id.action_onboarding_shopkeeper_info_to_pucoPointList)
+        }
+
+        binding.countryCodeInput.setOnClickListener {
+            launchCountryCodePicker(requireContext())
+        }
+
+        binding.AltCountryCodeInput.setOnClickListener {
+            altlaunchCountryCodePicker(requireContext())
+        }
+
+        setOnClickListeners()
+        isValidEmail(binding.email.toString())
+        isValidPhoneNumber(binding.Phone)
+        initImageCaptureManager()
+        binding.userimage.setOnClickListener{
+            imageCaptureManager.startImageChooser(
+                uniqueRequestCode = SHOPKEEPER_IMAGE_REQUEST_CODE,
+                forProfile = true
+            )
+        }
+    }
+
+    private fun altlaunchCountryCodePicker(context: Context) {
+        context.launchCountryPickerDialog {
+            Log.d(
+                TAG,
+                "launchCountryCodePicker: country details: phoneCode: ${it?.phoneCode}; flagEmoji: ${it?.flagEmoji}"
+            )
+            altsetCountryText(it?.phoneCode.toString(), it?.flagEmoji)
+            altcountryCode = it?.phoneCode?.toString()!!
+        }
+    }
+
+    private fun launchCountryCodePicker(context: Context) {
+        context.launchCountryPickerDialog {
+            Log.d(
+                TAG,
+                "launchCountryCodePicker: country details: phoneCode: ${it?.phoneCode}; flagEmoji: ${it?.flagEmoji}"
+            )
+            setCountryText(it?.phoneCode.toString(), it?.flagEmoji)
+            countryCode = it?.phoneCode?.toString()!!
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun setCountryText(phoneCode: String?, flagEmoji: String?) {
+        binding.countryCodeInput.setText("+$phoneCode")
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun altsetCountryText(phoneCode: String?, flagEmoji: String?) {
+        binding.AltCountryCodeInput.setText("+$phoneCode")
+    }
+
+    private fun setOnClickListeners() {
+        binding.proceedButton.setOnClickListener {
+        if (CheckAllFields() && shopkeeperUri.toString() !="") {
+                val Name = binding.Name.text.toString()
+                val Email = binding.email.text.toString()
+                username = Email.split('@')[0]
+
+            val Phone = binding.countryCodeInput.text.toString() + binding.Phone.text.toString()
+            phoneNum = binding.Phone.text.toString()
+            phoneCountryCode = binding.countryCodeInput.text.toString()
+                val AltPhone = binding.AltCountryCodeInput.text.toString() + binding.AlternatePhone.text.toString()
+            altNum = binding.AlternatePhone.text.toString()
+            altCountryCode = binding.AltCountryCodeInput.text.toString()
+                viewModel.shopkeeperDetailsChanged(
+                    Name,
+                    Email,
+                    Phone,
+                    AltPhone,
+                    shopkeeperUri.toString(),
+                    username,
+                    phoneCountryCode,
+                    phoneNum,
+                    altCountryCode,
+                    altNum
+                )
+            val direction = OnboardingShopkeeperInfoDirections.actionOnboardingShopkeeperInfoToOnboardingShopInfo()
+            navController!!.navigate(direction)
+             closeKeyboard()
+
+        }
+            if(shopkeeperUri.toString() ==""){
+                Toast.makeText(requireContext(),"Image is not selected",Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+    private fun initImageCaptureManager() {
+        imageCaptureManager = ImageCaptureManager(this) { uri, _, uniqueRequestCode ->
+            if(uniqueRequestCode == SHOPKEEPER_IMAGE_REQUEST_CODE) {
+                shopkeeperUri = uri?: Uri.EMPTY
+                uri.let { binding.userimage.setImageURI(uri)
+                binding.uploadimage.text = view?.isGone.toString()
+                }
+            }
+        }
+    }
+
+    private fun closeKeyboard() {
+        val view = requireActivity().currentFocus
+        if (view != null) {
+            val manager = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            manager.hideSoftInputFromWindow(view.windowToken, 0)
+        }
+    }
+
+
+    private fun isValidEmail(email: String): Boolean {
+        return Pattern.compile("^(([\\w-]+\\.)+[\\w-]+|([a-zA-Z]{1}|[\\w-]{2,}))@"
+                + "((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
+                + "[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\."
+                + "([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
+                + "[0-9]{1,2}|25[0-5]|2[0-4][0-9])){1}|"
+                + "([a-zA-Z]+[\\w-]+\\.)+[a-zA-Z]{2,4})$").matcher(email).matches()
+    }
+    private fun isValidPhoneNumber(target: EditText?): Boolean {
+        for(i in target?.text.toString()){
+            if(!i.isDigit()){
+                Log.i(TAG, "isValidPhoneNumber: $i")
+                return true
+            }
+        }
+        return if (target == null || target.length() < 10 || target.length() > 10) {
+            true
+        } else {
+            Patterns.PHONE.matcher(target.toString()).matches()
+        }
+    }
+    private fun CheckAllFields(): Boolean {
+        if (binding.Name.length() == 0) {
+            binding.Name.error = "This field is required"
+            return false
+        }
+
+        if(!isValidEmail(binding.email.text.toString().trim())){
+            Toast.makeText(context, "InValid Email Address.", Toast.LENGTH_SHORT).show();
+            return false
+        }
+        if (isValidPhoneNumber(binding.Phone)) {
+            binding.Phone.error = "inValid phone number"
+            return false
+        }
+        if (isValidPhoneNumber(binding.AlternatePhone)) {
+            binding.AlternatePhone!!.error = "inValid phone number"
+            return false
+        }
+
+        if(binding.countryCodeInput.text.toString() == ""){
+            Toast.makeText(requireContext(),"require country code", Toast.LENGTH_LONG).show()
+            return false
+        }
+
+        if(binding.AltCountryCodeInput.text.toString() == ""){
+            Toast.makeText(requireContext(),"require alt phone no. country code", Toast.LENGTH_LONG).show()
+            return false
+        }
+        return true
+    }
+
+    companion object {
+        private const val TAG = "OnboardingShopkeeperInf"
+        private const val AADHAR_IMAGE_REQUEST_CODE = 1
+        private const val SHOPKEEPER_IMAGE_REQUEST_CODE = 2
+    }
+
+    private enum class ImageType {
+        SHOPKEEPER, AADHAR
+    }
+}
+
+
+

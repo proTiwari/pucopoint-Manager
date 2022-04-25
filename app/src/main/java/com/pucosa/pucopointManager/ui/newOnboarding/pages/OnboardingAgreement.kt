@@ -31,6 +31,7 @@ class OnboardingAgreement: Fragment() {
         return binding.root
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding.accept2.isEnabled = false
         super.onViewCreated(view, savedInstanceState)
         binding.progressbar.visibility = View.INVISIBLE
         val signaturePad = binding.signaturePad
@@ -54,9 +55,7 @@ class OnboardingAgreement: Fragment() {
         val invisibleView: View? = null //do the same
 
         checkBox.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (isChecked) {
-                invisibleView!!.visibility = View.VISIBLE
-            } else invisibleView!!.visibility = View.GONE
+            binding.accept2.isEnabled = isChecked
         }
 
 

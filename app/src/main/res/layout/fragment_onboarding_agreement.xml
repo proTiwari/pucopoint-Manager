@@ -1,11 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+                name="data"
+                type="com.pucosa.pucopointManager.ui.newOnboarding.NewOnboardingViewModel" />
+    </data>
+
+<androidx.constraintlayout.widget.ConstraintLayout
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.newOnboarding.pages.OnboardingAgreement">
+
 
 
     <ProgressBar
@@ -82,7 +91,8 @@
             app:layout_constraintHorizontal_bias="0.331"
             android:layout_marginTop="88dp"
 
-            android:minHeight="48dp" />
+            android:minHeight="48dp"
+            android:focusable="true" />
 
     <Button
             android:id="@+id/cancel"
@@ -112,3 +122,4 @@
             app:layout_constraintHorizontal_bias="0.803" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

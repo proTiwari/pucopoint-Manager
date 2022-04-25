@@ -1,14 +1,13 @@
 package com.pucosa.pucopointManager
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import com.bumptech.glide.Glide.init
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.FirebaseApp
 import com.google.firebase.appcheck.FirebaseAppCheck
@@ -16,7 +15,6 @@ import com.google.firebase.appcheck.safetynet.SafetyNetAppCheckProviderFactory
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import com.pucosa.pucopointManager.ui.newOnboarding.NewOnboardingViewModel
 
 
 class MainActivity : AppCompatActivity() {
@@ -81,9 +79,10 @@ class MainActivity : AppCompatActivity() {
             .show()
     }
 
-    fun writtingFragment(view: View) {
-        navController?.navigate(R.id.action_onboarding_agreement_to_writtenAgreement)
-    }
+//    fun writtingFragment(view: View) {
+//
+//        //navController?.navigate(R.id.action_onboarding_agreement_to_writtenAgreement)
+//    }
 
 //    fun plus(view: View) {
 //        navController?.navigate(R.id.action_paymentList_to_onboarding_shopkeeper_info)

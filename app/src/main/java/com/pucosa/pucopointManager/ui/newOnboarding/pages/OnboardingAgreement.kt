@@ -1,5 +1,7 @@
 package com.pucosa.pucopointManager.ui.newOnboarding.pages
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,6 +12,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.text.HtmlCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -31,6 +34,8 @@ class OnboardingAgreement: Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentOnboardingAgreementBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(requireActivity())[NewOnboardingViewModel::class.java]
+        binding.data = viewModel
+        binding.lifecycleOwner = this
         return binding.root
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -39,13 +44,15 @@ class OnboardingAgreement: Fragment() {
         binding.progressbar.visibility = View.INVISIBLE
         val signaturePad = binding.signaturePad
 
+        Observer<Boolean> { binding.accept2 }
+
         signaturePad.setOnSignedListener(object : SignaturePad.OnSignedListener {
             override fun onStartSigning() {}
             override fun onSigned() {
 
             }
             override fun onClear() {
-
+                    binding.accept2.isEnabled = false
             }
         })
 
@@ -63,9 +70,15 @@ class OnboardingAgreement: Fragment() {
 
         val viewer: TextView = binding.writtenAgreement
 
-        val formattedText = "<div>I agree to the <span style=\"color:blue;\">Terms and Conditions</span></div>"
-
+        val formattedText = "I agree to the <a href='https://pucosa.com/pucopoint_terms_conditions.pdf'>Terms and Conditions</a>"
         viewer.text = HtmlCompat.fromHtml(formattedText, HtmlCompat.FROM_HTML_MODE_LEGACY)
+        binding.writtenAgreement.setOnClickListener{
+            val url = "https://pucosa.com/pucopoint_terms_conditions.pdf"
+            val i = Intent(Intent.ACTION_VIEW)
+            i.data = Uri.parse(url)
+            startActivity(i)
+        }
+
 
         viewModel = ViewModelProvider(requireActivity())[NewOnboardingViewModel::class.java]
         navController = Navigation.findNavController(view)
@@ -102,4 +115,5 @@ class OnboardingAgreement: Fragment() {
         const val TAG = "OnboardingAgreement"
     }
 }
+
 

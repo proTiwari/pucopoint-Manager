@@ -46,12 +46,12 @@ import java.io.ByteArrayOutputStream
 
 class NewOnboardingViewModel(application: Application) : AndroidViewModel(application) {
 
-    val data = MutableLiveData(Pucopoint())
+    var data = MutableLiveData(Pucopoint())
     var countryCode1 = MutableLiveData<String>("+91")
     var countryCode2 = MutableLiveData<String>("+91")
     @SuppressLint("StaticFieldLeak")
     private val context = getApplication<Application>().applicationContext
-    var checked = MutableLiveData<Boolean>()
+    var signaturePad = MutableLiveData<SignaturePad>()
 
 
 

@@ -5,8 +5,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import android.widget.Toast
-import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
@@ -49,6 +49,16 @@ class OnboardingAgreement: Fragment() {
             signaturePad.clear()
         }
 
+        val checkBox: CheckBox = binding.checkBox1 //get the view using findViewById
+
+        val invisibleView: View? = null //do the same
+
+        checkBox.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                invisibleView!!.visibility = View.VISIBLE
+            } else invisibleView!!.visibility = View.GONE
+        }
+
 
         viewModel = ViewModelProvider(requireActivity())[NewOnboardingViewModel::class.java]
         navController = Navigation.findNavController(view)
@@ -70,6 +80,9 @@ class OnboardingAgreement: Fragment() {
             navController.navigate(R.id.action_onboarding_agreement_to_pucoPointList)
         }
     }
+
+
+
 
     @Synchronized
     private fun onboardingImageUploadFun(

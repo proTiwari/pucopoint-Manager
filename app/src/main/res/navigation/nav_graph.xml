@@ -44,6 +44,9 @@
         <action
             android:id="@+id/action_onboarding_agreement_to_progressBar"
             app:destination="@id/progressBar" />
+        <action
+                android:id="@+id/action_onboarding_agreement_to_writtenAgreement"
+                app:destination="@id/writtenAgreement" />
     </fragment>
     <fragment
         android:id="@+id/pucoPointList"
@@ -157,4 +160,13 @@
         app:destination="@id/pucoPointList"
         app:popUpTo="@id/nav_graph"
         app:popUpToInclusive="true" />
+    <fragment
+            android:id="@+id/writtenAgreement"
+            android:name="com.pucosa.pucopointManager.ui.agreement.WrittenAgreement"
+            android:label="fragment_written_agreement"
+            tools:layout="@layout/fragment_written_agreement" >
+        <action
+                android:id="@+id/action_writtenAgreement_to_onboarding_agreement"
+                app:destination="@id/onboarding_agreement" />
+    </fragment>
 </navigation>

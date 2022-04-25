@@ -66,6 +66,7 @@ class MainActivity : AppCompatActivity() {
         navController?.navigate(R.id.action_paymentFragment_to_pucoPointList)
     }
 
+
     fun onLogoutClicked(item: MenuItem) {
         MaterialAlertDialogBuilder(this)
             .setTitle("Clearance Confirmation")
@@ -78,6 +79,10 @@ class MainActivity : AppCompatActivity() {
                 dialog.dismiss()
             }
             .show()
+    }
+
+    fun writtingFragment(view: View) {
+        navController?.navigate(R.id.action_onboarding_agreement_to_writtenAgreement)
     }
 
 //    fun plus(view: View) {

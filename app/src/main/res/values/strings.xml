@@ -2,6 +2,8 @@
 	<string name="app_name">Pucopoint Manager</string>
 	<!-- TODO: Remove or change this placeholder text -->
 
+<string name="hello_blank_fragment">none</string>
+
 	<string name="prompt_email">Email</string>
 	<string name="prompt_password">Password</string>
 	<string name="login">Login</string>

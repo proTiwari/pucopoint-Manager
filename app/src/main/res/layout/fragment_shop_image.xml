@@ -82,7 +82,7 @@
             android:layout_marginBottom="628dp"
             android:textSize="18sp"
             android:layout_width="374dp"
-            android:layout_height="77dp"
+            android:layout_height="57dp"
             android:layout_below="@+id/select_aadhar"
                 android:text="@={data.data.shopName}"
             android:layout_alignParentStart="true"

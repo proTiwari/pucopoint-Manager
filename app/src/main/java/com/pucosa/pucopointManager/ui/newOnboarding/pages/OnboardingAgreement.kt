@@ -6,7 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
+import android.widget.TextView
 import android.widget.Toast
+import androidx.core.text.HtmlCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
@@ -59,6 +61,11 @@ class OnboardingAgreement: Fragment() {
             binding.accept2.isEnabled = isChecked
         }
 
+        val viewer: TextView = binding.writtenAgreement
+
+        val formattedText = "<div>I agree to the <span style=\"color:blue;\">Terms and Conditions</span></div>"
+
+        viewer.text = HtmlCompat.fromHtml(formattedText, HtmlCompat.FROM_HTML_MODE_LEGACY)
 
         viewModel = ViewModelProvider(requireActivity())[NewOnboardingViewModel::class.java]
         navController = Navigation.findNavController(view)

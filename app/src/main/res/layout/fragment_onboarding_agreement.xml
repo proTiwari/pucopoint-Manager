@@ -77,26 +77,12 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_gravity="center_horizontal"
-            android:text="I agree to the Terms and Conditions"
             android:onClick="writtingFragment"
             android:clickable="true"
             app:layout_constraintHorizontal_bias="0.331"
             android:layout_marginTop="88dp"
 
-            />
-
-    <Button
-            android:id="@+id/accept2"
-            android:layout_width="130dp"
-            android:layout_height="59dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            style="?attr/materialButtonOutlinedStyle"
-            android:text="agree"
-            android:layout_marginStart="24dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:minHeight="48dp" />
 
     <Button
             android:id="@+id/cancel"
@@ -104,12 +90,25 @@
             android:layout_height="59dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
             style="?attr/materialButtonOutlinedStyle"
-            android:text="cencel"
+            android:text="cancel"
+            android:layout_marginStart="24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+            android:id="@+id/accept2"
+            android:layout_width="130dp"
+            android:layout_height="59dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            style="?attr/materialButtonOutlinedStyle"
+            android:text="agree"
             android:layout_alignParentBottom="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/accept2"
+            app:layout_constraintStart_toEndOf="@+id/cancel"
             app:layout_constraintHorizontal_bias="0.803" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

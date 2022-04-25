@@ -28,6 +28,7 @@ class OnboardingAgreement: Fragment() {
     ): View {
         // Inflate the layout for this fragment
         binding = FragmentOnboardingAgreementBinding.inflate(inflater, container, false)
+        viewModel = ViewModelProvider(requireActivity())[NewOnboardingViewModel::class.java]
         return binding.root
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

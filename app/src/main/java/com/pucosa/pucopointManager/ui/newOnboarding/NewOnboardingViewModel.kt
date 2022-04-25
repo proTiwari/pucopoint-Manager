@@ -51,6 +51,7 @@ class NewOnboardingViewModel(application: Application) : AndroidViewModel(applic
     var countryCode2 = MutableLiveData<String>("+91")
     @SuppressLint("StaticFieldLeak")
     private val context = getApplication<Application>().applicationContext
+    var checked = MutableLiveData<Boolean>()
 
 
 

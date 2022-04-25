@@ -1,0 +1,121 @@
+{
+  "project_info": {
+    "project_number": "763356811560",
+    "project_id": "pucoread",
+    "storage_bucket": "pucoread.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:763356811560:android:1bf712db1a84e4f2b7c01d",
+        "android_client_info": {
+          "package_name": "com.pucosa.pucopoint"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "763356811560-sps3q5320agondl9s3bl6bn9tl8mtvpg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pucosa.pucopoint",
+            "certificate_hash": "2b00ced64375e970b820a64e47e5365277f9acb2"
+          }
+        },
+        {
+          "client_id": "763356811560-b0u2neaotbnosd7ekpboefi21gigrt6p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBRHABPqMl90glGDUpDL1TOWMt8Iu8EQbE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "763356811560-b0u2neaotbnosd7ekpboefi21gigrt6p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:763356811560:android:8414a13cbc1aefdab7c01d",
+        "android_client_info": {
+          "package_name": "com.pucosa.pucopointManager"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "763356811560-cfj9ghj2eqmtqqeah952h7r8ht1nbkcs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pucosa.pucopointManager",
+            "certificate_hash": "550448cf1710d74972b658cf31ead9b6547ab113"
+          }
+        },
+        {
+          "client_id": "763356811560-b0u2neaotbnosd7ekpboefi21gigrt6p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBRHABPqMl90glGDUpDL1TOWMt8Iu8EQbE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "763356811560-b0u2neaotbnosd7ekpboefi21gigrt6p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:763356811560:android:ead7c8b26ad9b674b7c01d",
+        "android_client_info": {
+          "package_name": "com.pucosa.pucoreads"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "763356811560-k3hnfu4hs6g26vs6japosreetlkkpgjt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pucosa.pucoreads",
+            "certificate_hash": "0574aa1d26ba0416c28759c5a2e3d1fb3d1254e1"
+          }
+        },
+        {
+          "client_id": "763356811560-b0u2neaotbnosd7ekpboefi21gigrt6p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBRHABPqMl90glGDUpDL1TOWMt8Iu8EQbE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "763356811560-b0u2neaotbnosd7ekpboefi21gigrt6p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

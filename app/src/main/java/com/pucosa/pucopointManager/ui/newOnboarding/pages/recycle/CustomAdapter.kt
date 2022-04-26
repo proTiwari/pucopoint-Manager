@@ -1,16 +1,19 @@
 package com.pucosa.pucopointManager.ui.newOnboarding.pages.recycle
 
+import android.annotation.SuppressLint
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.Recycler
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.pucosa.pucopointManager.R
 import com.pucosa.pucopointManager.models.Pucopoint
+import kotlinx.coroutines.processNextEventInCurrentThread
 
 class CustomAdapter(
     options: FirestoreRecyclerOptions<Pucopoint>,
@@ -25,15 +28,22 @@ class CustomAdapter(
     // store the list of filtered search items
     private var searchItems: MutableList<Pucopoint> = mutableListOf()
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+
         return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.singlerow,parent,false))
+
     }
+
+
+
 
     override fun onError(e: FirebaseFirestoreException) {
         super.onError(e)
         Log.e(TAG, "onError: error while fetching inventory data : ", e)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onDataChanged() {
         super.onDataChanged()
         loadingComplete(itemCount)
@@ -65,6 +75,8 @@ class CustomAdapter(
         }
     }
 
+
+
     // Holds the views for adding it to image and text
     class ViewHolder(ItemView: View) : RecyclerView.ViewHolder(ItemView) {
       //  val imageView: ImageView = itemView.findViewById(R.id.image)
@@ -80,6 +92,7 @@ class CustomAdapter(
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun search(text: String) {
         searchText = text
         notifyDataSetChanged()

@@ -1,33 +1,22 @@
 package com.pucosa.pucopointManager.ui.newOnboarding
 
-import android.Manifest
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.app.Application
 import android.app.ProgressDialog
 import android.content.Context
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.location.Location
-import android.location.LocationManager
 import android.net.Uri
-import android.os.Build
 import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import androidx.annotation.RequiresApi
-import androidx.core.app.ActivityCompat
 import androidx.core.net.toUri
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.firebase.geofire.GeoFireUtils
 import com.firebase.geofire.GeoLocation
 import com.github.gcacace.signaturepad.views.SignaturePad
-import com.google.android.gms.location.*
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -36,12 +25,12 @@ import com.pucosa.pucopointManager.constants.DbCollections
 import com.pucosa.pucopointManager.models.Pucopoint
 import com.pucosa.pucopointManager.ui.newOnboarding.pages.OnboardingAgreement
 import com.pucosa.pucopointManager.utils.ImageUtils
-import com.pucosa.pucopointManager.utils.LocationUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import java.io.ByteArrayOutputStream
+import java.lang.Math.random
 
 
 class NewOnboardingViewModel(application: Application) : AndroidViewModel(application) {
@@ -127,24 +116,41 @@ class NewOnboardingViewModel(application: Application) : AndroidViewModel(applic
         view: View
     ) {
         viewModelScope.launch {
-
+            var id = random()
             val model = data.value!!
             val shopImageUrl: Uri = model.shopImageUrl.toUri()
             val shopkeeperImageUrl: Uri = model.shopkeeperImageUrl.toUri()
             val aadharUri: Uri = model.aadharImageUrl.toUri()
-            val uploadShopJob = async(Dispatchers.IO){if(shopImageUrl != Uri.EMPTY)uploadImage(shopImageUrl, ImageType.SHOP, context, view) else null}
-            val uploadShopkeeperJob = async(Dispatchers.IO){if(shopkeeperImageUrl != Uri.EMPTY)uploadImage(shopkeeperImageUrl, ImageType.SHOPKEEPER, context, view) else null}
-            val uploadAadharImageJob = async(Dispatchers.IO){if(aadharUri != Uri.EMPTY)uploadImage(aadharUri, ImageType.AADHAR, context, view) else null}
+            val uploadShopJob = async(Dispatchers.IO){if(shopImageUrl != Uri.EMPTY)uploadImage(shopImageUrl, ImageType.SHOP, context, view, id) else null}
+            val uploadShopkeeperJob = async(Dispatchers.IO){if(shopkeeperImageUrl != Uri.EMPTY)uploadImage(
+                shopkeeperImageUrl,
+                ImageType.SHOPKEEPER,
+                context,
+                view,
+                id
+            ) else null}
+            val uploadAadharImageJob = async(Dispatchers.IO){if(aadharUri != Uri.EMPTY)uploadImage(
+                aadharUri,
+                ImageType.AADHAR,
+                context,
+                view,
+                id
+            ) else null}
             val uploadSignaturePad = async(Dispatchers.IO){if(!signaturePad.isEmpty)uploadSignature(
                 signaturePad.signatureBitmap,
-                context, view
+                context, view,id
             ) else null}
             firebaseUriImageUpload(uploadShopJob.await(), uploadShopkeeperJob.await(), uploadAadharImageJob.await(), context, uploadSignaturePad.await())
         }
 
     }
 
-    private suspend fun uploadSignature(signaturePad: Bitmap, context: Context, view: View): Uri? {
+    private suspend fun uploadSignature(
+        signaturePad: Bitmap,
+        context: Context,
+        view: View,
+        id: Double
+    ): Uri? {
         val sign = compress(signaturePad)
         val model = data.value!!
         Looper.prepare()
@@ -153,7 +159,7 @@ class NewOnboardingViewModel(application: Application) : AndroidViewModel(applic
         progressDialog.setCancelable(false)
 
         val fileName = "SIGNATURE_${model.pid}.WEBP"
-        val storageReference = FirebaseStorage.getInstance().getReference("/pucopoints/${model.pid}/$fileName")
+        val storageReference = FirebaseStorage.getInstance().getReference("/pucopoints/${id}/$fileName")
         val uploadTask = storageReference.putBytes(sign).
         addOnSuccessListener {
             progressDialog.dismiss()
@@ -210,7 +216,13 @@ class NewOnboardingViewModel(application: Application) : AndroidViewModel(applic
         }
     }
 
-    private suspend fun uploadImage(uri: Uri, type: ImageType, context: Context, view: View): Uri{
+    private suspend fun uploadImage(
+        uri: Uri,
+        type: ImageType,
+        context: Context,
+        view: View,
+        id: Double
+    ): Uri{
         val model = data.value!!
         Looper.prepare()
 
@@ -222,7 +234,7 @@ class NewOnboardingViewModel(application: Application) : AndroidViewModel(applic
             ImageType.AADHAR -> "AADHAR_${model.pid}.$fileExtension"
             ImageType.SIGNATURE -> TODO()
         }
-        val storageReference = FirebaseStorage.getInstance().getReference("/pucopoints/${model.pid}/$fileName")
+        val storageReference = FirebaseStorage.getInstance().getReference("/pucopoints/${id}/$fileName")
 
         val compressedUri = ImageUtils.compressImage(uri, fileName , context)
 

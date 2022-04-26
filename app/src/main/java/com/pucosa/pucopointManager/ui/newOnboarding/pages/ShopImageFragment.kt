@@ -44,6 +44,7 @@ class ShopImageFragment : Fragment() {
             binding.shopName.setText(viewModel.data.value?.shopName)
         }
         viewModel.data.observe(requireActivity(),Uidata)
+
         binding.proceedButton.setOnClickListener{
             val shopName = binding.shopName.text.toString()
             if(shopName != "" && shopImageUri != Uri.EMPTY) {

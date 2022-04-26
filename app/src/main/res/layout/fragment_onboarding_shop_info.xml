@@ -62,7 +62,7 @@
                     android:layout_height="match_parent"
                     android:layout_alignParentTop="true"
                     android:layout_marginEnd="16dp"
-                        android:text="@{String.valueOf(data.data.lat)}"
+                        android:text="@={``+data.data.lat}"
                     android:hint="latitude"
                     android:inputType="numberDecimal" />
 
@@ -79,7 +79,7 @@
                     android:id="@+id/longitude"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{String.valueOf(data.data.lon)}"
+                    android:text="@={`` + data.data.lon}"
                     android:layout_alignParentTop="true"
                     android:layout_marginEnd="16dp"
                     android:hint="longitude"

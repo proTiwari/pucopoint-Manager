@@ -1,9 +1,7 @@
 package com.pucosa.pucopointManager.ui.newOnboarding.pages
-import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import android.view.inputmethod.InputMethodManager
 import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
@@ -17,6 +15,7 @@ import com.pucosa.pucopointManager.R
 import com.pucosa.pucopointManager.databinding.PucopointListBinding
 import com.pucosa.pucopointManager.models.Pucopoint
 import com.pucosa.pucopointManager.ui.newOnboarding.pages.recycle.CustomAdapter
+
 
 class PucopointList : Fragment() {
     private lateinit var binding: PucopointListBinding
@@ -40,7 +39,6 @@ class PucopointList : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         navController = Navigation.findNavController(view)
         setListAdapter()
-
         binding.plusicon.setOnClickListener {
             navController.navigate(R.id.action_pucoPointList_to_onboarding_shopkeeper_info)
         }
@@ -55,6 +53,7 @@ class PucopointList : Fragment() {
 ////            val action = PucopointListDirections.actionPucoPointListToPaymentList()
 ////            navController.navigate(action)
 //        }
+
     }
 
 
@@ -70,33 +69,27 @@ class PucopointList : Fragment() {
             .setLifecycleOwner(viewLifecycleOwner)
             .build()
 
-        userAdapter = CustomAdapter(
-            options = options,
-            loadingComplete = {
 
-            },
-            onItemClicked = { model, position ->
-                val direction = PucopointListDirections.actionPucoPointListToShopkeeperFullDetail(model)
-                navController.navigate(direction)
-            }
-        )
+        try {
+            userAdapter = CustomAdapter(
+                options = options,
+                loadingComplete = {
+                },
+                onItemClicked = { model, position ->
+                    val direction = PucopointListDirections.actionPucoPointListToShopkeeperFullDetail(model)
+                    navController.navigate(direction)
+                }
+            )
+        } catch (e: IndexOutOfBoundsException) {
+            Log.e("TAG", "meet a IOOBE in RecyclerView")
+        }
+
 
 
         val linearLayoutManager = LinearLayoutManager(context)
         binding.recycler.layoutManager = linearLayoutManager
         binding.recycler.adapter = userAdapter!!
 
-    }
-
-    private fun closeKeyboard() {
-        // this will give us the view which is currently focus in this layout
-        val view = requireActivity().currentFocus
-        // if nothing is currently focus then this will protect the app from crash
-        if (view != null) {
-            // now assign the system service to InputMethodManager
-            val manager = requireContext().getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-            manager.hideSoftInputFromWindow(view.windowToken, 0)
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -124,5 +117,7 @@ class PucopointList : Fragment() {
     companion object {
         private const val TAG = "PucopointList"
     }
+
 }
+
 

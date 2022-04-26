@@ -9,35 +9,35 @@
 	<!-- TODO: Update blank fragment layout -->
 
 	<LinearLayout
-			android:layout_height="568dp"
-			android:layout_width="match_parent"
-			android:layout_marginTop="17dp"
+			android:layout_height="wrap_content"
+			android:layout_width="728dp"
+			android:layout_marginTop="27dp"
 			app:layout_constraintStart_toStartOf="parent"
 			app:layout_constraintBottom_toTopOf="@+id/back"
 			app:layout_constraintTop_toTopOf="parent"
 			app:layout_constraintEnd_toEndOf="parent">
 
-<!--		<ScrollView-->
-<!--				android:layout_width="400dp"-->
-<!--				android:layout_gravity="center_horizontal"-->
-<!--				android:layout_height="match_parent">-->
+		<!--		<ScrollView-->
+		<!--				android:layout_width="400dp"-->
+		<!--				android:layout_gravity="center_horizontal"-->
+		<!--				android:layout_height="match_parent">-->
 
-<!--		<com.github.barteksc.pdfviewer.PDFView-->
-<!--				android:id="@+id/idPDFView"-->
-<!--				android:layout_width="match_parent"-->
-<!--				android:layout_height="match_parent" />-->
+		<!--		<com.github.barteksc.pdfviewer.PDFView-->
+		<!--				android:id="@+id/idPDFView"-->
+		<!--				android:layout_width="match_parent"-->
+		<!--				android:layout_height="match_parent" />-->
 
-<!--	</ScrollView>-->
+		<!--	</ScrollView>-->
 
 		<ScrollView
-				android:layout_width="400dp"
+				android:layout_width="736dp"
 				android:layout_gravity="center_horizontal"
-				android:layout_height="match_parent">
+				android:layout_height="231dp">
 
 			<TextView
-					android:layout_width="400dp"
+					android:layout_width="match_parent"
 					android:id="@+id/writtenAgreement"
-					android:layout_height="wrap_content" />
+					android:layout_height="match_parent" />
 
 		</ScrollView>
 
@@ -49,6 +49,7 @@
 			android:id="@+id/back"
 			android:text="back"
 			style="?attr/materialButtonOutlinedStyle"
+			android:layout_marginTop="50dp"
 			app:layout_constraintBottom_toBottomOf="parent"
 			app:layout_constraintEnd_toEndOf="parent"
 			app:layout_constraintStart_toStartOf="parent" />

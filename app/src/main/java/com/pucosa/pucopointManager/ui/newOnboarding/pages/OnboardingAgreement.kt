@@ -1,7 +1,5 @@
 package com.pucosa.pucopointManager.ui.newOnboarding.pages
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -38,11 +36,13 @@ class OnboardingAgreement: Fragment() {
         binding.lifecycleOwner = this
         return binding.root
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.accept2.isEnabled = false
         super.onViewCreated(view, savedInstanceState)
         binding.progressbar.visibility = View.INVISIBLE
         val signaturePad = binding.signaturePad
+
 
         Observer<Boolean> { binding.accept2 }
 
@@ -52,7 +52,6 @@ class OnboardingAgreement: Fragment() {
 
             }
             override fun onClear() {
-                    binding.accept2.isEnabled = false
             }
         })
 
@@ -72,12 +71,12 @@ class OnboardingAgreement: Fragment() {
 
         val formattedText = "I agree to the <a href='https://pucosa.com/pucopoint_terms_conditions.pdf'>Terms and Conditions</a>"
         viewer.text = HtmlCompat.fromHtml(formattedText, HtmlCompat.FROM_HTML_MODE_LEGACY)
-        binding.writtenAgreement.setOnClickListener{
-            val url = "https://pucosa.com/pucopoint_terms_conditions.pdf"
-            val i = Intent(Intent.ACTION_VIEW)
-            i.data = Uri.parse(url)
-            startActivity(i)
-        }
+//        binding.writtenAgreement.setOnClickListener{
+//            val url = "https://pucosa.com/pucopoint_terms_conditions.pdf"
+//            val i = Intent(Intent.ACTION_VIEW)
+//            i.data = Uri.parse(url)
+//            startActivity(i)
+//        }
 
 
         viewModel = ViewModelProvider(requireActivity())[NewOnboardingViewModel::class.java]

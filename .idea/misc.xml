@@ -8,23 +8,35 @@
         <entry key="..\:/Users/prosh/AndroidStudioProjects/PucoreadsAdmin/app/src/main/res/layout/fragment_payment_full_detail.xml" value="0.22826086956521738" />
         <entry key="..\:/Users/prosh/AndroidStudioProjects/PucoreadsAdmin/app/src/main/res/layout/fragment_progress_bar.xml" value="0.10989583333333333" />
         <entry key="..\:/Users/prosh/AndroidStudioProjects/PucoreadsAdmin/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.25" />
+        <entry key="..\:/Users/stabc/AndroidStudioProjects/PucoreadsAdmin-alpha/app/src/main/res/drawable/blue_border_circle.xml" value="0.16" />
+        <entry key="..\:/Users/stabc/AndroidStudioProjects/PucoreadsAdmin-alpha/app/src/main/res/drawable/blue_border_rounded_cornwe.xml" value="0.16" />
+        <entry key="..\:/Users/stabc/AndroidStudioProjects/PucoreadsAdmin-alpha/app/src/main/res/drawable/blue_fill__rounded_color.xml" value="0.16" />
+        <entry key="..\:/Users/stabc/AndroidStudioProjects/PucoreadsAdmin-alpha/app/src/main/res/drawable/button_background.xml" value="0.16" />
+        <entry key="..\:/Users/stabc/AndroidStudioProjects/PucoreadsAdmin-alpha/app/src/main/res/drawable/button_gradient.xml" value="0.16" />
+        <entry key="..\:/Users/stabc/AndroidStudioProjects/PucoreadsAdmin-alpha/app/src/main/res/drawable/ic_baseline_account_balance_24.xml" value="0.16" />
+        <entry key="..\:/Users/stabc/AndroidStudioProjects/PucoreadsAdmin-alpha/app/src/main/res/drawable/ic_baseline_add_circle_24.xml" value="0.16" />
         <entry key="..\:/Users/stabc/AndroidStudioProjects/PucoreadsAdmin-alpha/app/src/main/res/drawable/progressbar.xml" value="0.2225" />
+        <entry key="..\:/Users/stabc/AndroidStudioProjects/PucoreadsAdmin-alpha/app/src/main/res/drawable/show_password_selector.xml" value="0.187" />
         <entry key="..\:/Users/stabc/AndroidStudioProjects/PucoreadsAdmin-alpha/app/src/main/res/layout-land/fragment_aadar.xml" value="0.3631484794275492" />
         <entry key="..\:/Users/stabc/AndroidStudioProjects/PucoreadsAdmin-alpha/app/src/main/res/layout-land/fragment_login.xml" value="0.23318385650224216" />
         <entry key="..\:/Users/stabc/AndroidStudioProjects/PucoreadsAdmin-alpha/app/src/main/res/layout-land/fragment_onboarding_agreement.xml" value="0.3631484794275492" />
         <entry key="..\:/Users/stabc/AndroidStudioProjects/PucoreadsAdmin-alpha/app/src/main/res/layout-land/fragment_onboarding_shopkeeper_info.xml" value="0.2" />
         <entry key="..\:/Users/stabc/AndroidStudioProjects/PucoreadsAdmin-alpha/app/src/main/res/layout-land/fragment_shop_image.xml" value="0.3631484794275492" />
         <entry key="..\:/Users/stabc/AndroidStudioProjects/PucoreadsAdmin-alpha/app/src/main/res/layout-land/fragment_written_agreement.xml" value="0.3631484794275492" />
+        <entry key="..\:/Users/stabc/AndroidStudioProjects/PucoreadsAdmin-alpha/app/src/main/res/layout/activity_main.xml" value="0.21145833333333333" />
+        <entry key="..\:/Users/stabc/AndroidStudioProjects/PucoreadsAdmin-alpha/app/src/main/res/layout/activity_maps.xml" value="0.21145833333333333" />
         <entry key="..\:/Users/stabc/AndroidStudioProjects/PucoreadsAdmin-alpha/app/src/main/res/layout/fragment_aadar.xml" value="0.21145833333333333" />
-        <entry key="..\:/Users/stabc/AndroidStudioProjects/PucoreadsAdmin-alpha/app/src/main/res/layout/fragment_login.xml" value="0.21145833333333333" />
+        <entry key="..\:/Users/stabc/AndroidStudioProjects/PucoreadsAdmin-alpha/app/src/main/res/layout/fragment_login.xml" value="0.264" />
         <entry key="..\:/Users/stabc/AndroidStudioProjects/PucoreadsAdmin-alpha/app/src/main/res/layout/fragment_onboarding_agreement.xml" value="0.21145833333333333" />
         <entry key="..\:/Users/stabc/AndroidStudioProjects/PucoreadsAdmin-alpha/app/src/main/res/layout/fragment_onboarding_shop_info.xml" value="0.225531914893617" />
         <entry key="..\:/Users/stabc/AndroidStudioProjects/PucoreadsAdmin-alpha/app/src/main/res/layout/fragment_onboarding_shopkeeper_info.xml" value="0.2" />
         <entry key="..\:/Users/stabc/AndroidStudioProjects/PucoreadsAdmin-alpha/app/src/main/res/layout/fragment_progress_bar.xml" value="0.21145833333333333" />
         <entry key="..\:/Users/stabc/AndroidStudioProjects/PucoreadsAdmin-alpha/app/src/main/res/layout/fragment_shop_image.xml" value="0.21145833333333333" />
         <entry key="..\:/Users/stabc/AndroidStudioProjects/PucoreadsAdmin-alpha/app/src/main/res/layout/fragment_written_agreement.xml" value="0.21145833333333333" />
+        <entry key="..\:/Users/stabc/AndroidStudioProjects/PucoreadsAdmin-alpha/app/src/main/res/layout/payment_list.xml" value="0.21145833333333333" />
         <entry key="..\:/Users/stabc/AndroidStudioProjects/PucoreadsAdmin-alpha/app/src/main/res/layout/progressbar.xml" value="0.21145833333333333" />
         <entry key="..\:/Users/stabc/AndroidStudioProjects/PucoreadsAdmin-alpha/app/src/main/res/layout/pucopoint_full_detail.xml" value="0.1350210970464135" />
+        <entry key="..\:/Users/stabc/AndroidStudioProjects/PucoreadsAdmin-alpha/app/src/main/res/layout/pucopoint_list.xml" value="0.21145833333333333" />
       </map>
     </option>
   </component>

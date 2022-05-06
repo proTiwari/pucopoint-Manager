@@ -54,34 +54,31 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="0dp"
             android:layout_marginRight="62dp"
-            android:background="@drawable/blue_border_rounded_cornwe">
+           >
 
-            <EditText
-                android:id="@+id/Edt_email"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/username_icon"
-                android:background="@android:color/transparent"
-                android:fontFamily="@font/poppins_regular"
-                android:hint="Email"
-                android:text="@={data.email}"
-                android:inputType="textEmailAddress"
-                android:maxLines="1"
-                android:paddingLeft="17dp"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:textColor="@android:color/black"
-                android:textCursorDrawable="@drawable/cursor_color"
-                android:textSize="16dp" />
+            <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginTop="7dp"
+                    android:hint="email"
+                    android:layout_marginRight="0dp"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    app:startIconDrawable="@drawable/ic_baseline_email_24"
+                    >
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@={data.data.email}"
+                        android:id="@+id/email"
+                        android:inputType="textEmailAddress" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
 
-            <ImageView
-                android:id="@+id/username_icon"
-                android:layout_width="16.7dp"
-                android:layout_height="12.3dp"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="17dp"
-                android:src="@drawable/email" />
+
 
         </RelativeLayout>
 
@@ -92,35 +89,30 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="50dp"
             android:layout_marginTop="7dp"
-            android:layout_marginRight="62dp"
-            android:background="@drawable/blue_border_rounded_cornwe">
+            android:layout_marginRight="62dp">
 
 
-            <EditText
-                android:id="@+id/Edt_password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_toEndOf="@+id/icon"
-                android:background="@android:color/transparent"
-                android:fontFamily="@font/poppins_regular"
-                android:hint="Password"
-                android:text="@={data.password}"
-                android:paddingStart="17dp"
-                android:inputType="textPassword"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:textColor="@android:color/black"
-                android:textCursorDrawable="@drawable/cursor_color"
-                android:textSize="16sp"
-               />
+            <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginTop="7dp"
+                    android:hint="password"
+                    android:layout_marginRight="0dp"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    app:startIconDrawable="@drawable/ic_baseline_vpn_key_24"
+                    app:endIconDrawable="@drawable/show_password_selector"
+                    app:endIconMode="password_toggle">
 
-            <ImageView
-                android:id="@+id/icon"
-                android:layout_width="16.7dp"
-                android:layout_height="12.3dp"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="17dp"
-                android:src="@drawable/password" />
+                <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@={data.data.password}"
+                        android:id="@+id/password"
+                        android:inputType="textPassword" />
+
+            </com.google.android.material.textfield.TextInputLayout>
         </RelativeLayout>
 
         <Button

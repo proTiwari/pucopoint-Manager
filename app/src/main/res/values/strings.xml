@@ -2,7 +2,7 @@
 	<string name="app_name">Pucopoint Manager</string>
 	<!-- TODO: Remove or change this placeholder text -->
 
-<string name="hello_blank_fragment">none</string>
+	<string name="hello_blank_fragment">none</string>
 
 	<string name="prompt_email">Email</string>
 	<string name="prompt_password">Password</string>
@@ -18,4 +18,5 @@
 	<string name="error_invalid_email">This email address is invalid</string>
 	<string name="password_error">Please enter a password</string>
 	<string name="error_invalid_password">Please enter a minimum password of 6 characters</string>
+	<string name="title_activity_maps">MapsActivity</string>
 </resources>

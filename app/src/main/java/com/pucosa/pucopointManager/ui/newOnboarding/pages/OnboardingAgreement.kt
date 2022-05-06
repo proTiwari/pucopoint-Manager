@@ -78,15 +78,13 @@ class OnboardingAgreement: Fragment() {
 //            startActivity(i)
 //        }
 
-
         viewModel = ViewModelProvider(requireActivity())[NewOnboardingViewModel::class.java]
         navController = Navigation.findNavController(view)
         binding.accept2.setOnClickListener {
             binding.progressbar.visibility = View.VISIBLE
-            binding.accept2.isEnabled
             onboardingImageUploadFun(signaturePad, view)
-                binding.progressbar.visibility = View.INVISIBLE
-                navController.navigate(R.id.action_global_pucoPointList)
+
+//            navController.navigate(R.id.action_global_pucoPointList)
 
 
                   }
@@ -99,6 +97,7 @@ class OnboardingAgreement: Fragment() {
             navController.navigate(R.id.action_onboarding_agreement_to_pucoPointList)
         }
     }
+
 
 
 

@@ -38,6 +38,11 @@ class PucopointList : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navController = Navigation.findNavController(view)
+
+        binding.mapIcon2.setOnClickListener{
+            navController.navigate(R.id.action_pucoPointList_to_mapsActivity)
+        }
+
         setListAdapter()
         binding.plusicon.setOnClickListener {
             navController.navigate(R.id.action_pucoPointList_to_onboarding_shopkeeper_info)
@@ -55,8 +60,6 @@ class PucopointList : Fragment() {
 //        }
 
     }
-
-
 
 
     private fun setListAdapter() {
@@ -84,10 +87,9 @@ class PucopointList : Fragment() {
             Log.e("TAG", "meet a IOOBE in RecyclerView")
         }
 
-
-
         val linearLayoutManager = LinearLayoutManager(context)
         binding.recycler.layoutManager = linearLayoutManager
+        binding.recycler.itemAnimator = null
         binding.recycler.adapter = userAdapter!!
 
     }
@@ -113,6 +115,7 @@ class PucopointList : Fragment() {
             }
         })
     }
+
 
     companion object {
         private const val TAG = "PucopointList"

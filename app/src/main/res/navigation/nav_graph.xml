@@ -42,9 +42,6 @@
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_right"/>
         <action
-            android:id="@+id/action_onboarding_agreement_to_progressBar"
-            app:destination="@id/progressBar" />
-        <action
                 android:id="@+id/action_onboarding_agreement_to_writtenAgreement"
                 app:destination="@id/writtenAgreement" />
     </fragment>
@@ -62,6 +59,9 @@
         <action
             android:id="@+id/action_pucoPointList_to_paymentList"
             app:destination="@id/paymentFragment" />
+        <action
+                android:id="@+id/action_pucoPointList_to_mapsActivity"
+                app:destination="@id/mapsActivity" />
     </fragment>
     <fragment
         android:id="@+id/login2"
@@ -132,15 +132,6 @@
             app:destination="@id/paymentFragment" />
     </fragment>
     <fragment
-        android:id="@+id/progressBar"
-        android:name="com.pucosa.pucopointManager.ui.newOnboarding.pages.ProgressBar"
-        android:label="fragment_progress_bar"
-        tools:layout="@layout/fragment_progress_bar" >
-        <action
-            android:id="@+id/action_progressBar_to_pucoPointList"
-            app:destination="@id/pucoPointList" />
-    </fragment>
-    <fragment
         android:id="@+id/paymentFragment"
         android:name="com.pucosa.pucopointManager.ui.payments.PaymentsFragment"
         android:label="Payments"
@@ -169,4 +160,9 @@
                 android:id="@+id/action_writtenAgreement_to_onboarding_agreement"
                 app:destination="@id/onboarding_agreement" />
     </fragment>
+    <activity
+            android:id="@+id/mapsActivity"
+            android:name="com.pucosa.pucopointManager.map.MapsActivity"
+            android:label="activity_maps"
+            tools:layout="@layout/activity_maps" />
 </navigation>

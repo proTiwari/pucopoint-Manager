@@ -56,7 +56,7 @@ class ShopkeeperFullDetail : Fragment() {
         binding.shopName.text = pucopoint.shopName
         binding.email.text = pucopoint.email
         binding.latitude.text = pucopoint.lat.toString()
-        binding.longitude.text = pucopoint.lon.toString()
+        binding.longitude.text = pucopoint.long.toString()
         binding.state.text = pucopoint.state
         binding.phone.text = pucopoint.phone
         binding.pincode.text = pucopoint.pincode

@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
@@ -24,7 +23,7 @@ class Login : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_login, container, false)
+        binding = FragmentLoginBinding.inflate(inflater,  container, false)
         viewModel = ViewModelProvider(requireActivity())[LoginViewModel::class.java]
         binding.data = viewModel
         binding.lifecycleOwner = this
@@ -34,24 +33,27 @@ class Login : Fragment() {
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         binding.progressbar.visibility = View.INVISIBLE
+
+
+
         // login button click
         binding.loginId.setOnClickListener {
-            if (binding.EdtEmail.text.toString() != "" && binding.EdtPassword.text.toString() != "") {
-
+            val email = binding.emailOp?.text.toString()
+            val password =  binding.passwordOp?.text.toString()
+            if (email != "" && password != "") {
                 // navigation
                 navController = Navigation.findNavController(view)
-                if (viewModel.login(
-                        binding.EdtEmail.text.toString(),
-                        binding.EdtPassword.text.toString(),
-                        binding.progressbar
-                    ) == 1
-                ) {
-                    navController.navigate(R.id.action_login2_to_pucoPointList)
-                }
-            } else {
-                Toast.makeText(requireContext(), "fill all the fields", Toast.LENGTH_SHORT).show()
+               viewModel.login(
+                    email,
+                    password,
+                    binding.progressbar,
+                    view
+                )
+
+            }
+            else {
+                Toast.makeText(requireContext(), "fill all the fields $email $password", Toast.LENGTH_SHORT).show()
             }
 
         }

@@ -1,5 +1,6 @@
 plugins {
 
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
     id 'com.android.application'
     id 'kotlin-android'
     id("androidx.navigation.safeargs")
@@ -7,12 +8,18 @@ plugins {
     id("kotlin-parcelize")
     id 'kotlin-kapt'
     id 'com.google.firebase.crashlytics'
-
 }
 
 android {
     compileSdk 31
 
+
+    buildTypes{
+        release{
+            minifyEnabled true
+            shrinkResources true
+        }
+    }
 
     dataBinding {
         enabled true
@@ -42,6 +49,7 @@ android {
         }
 
         release {
+
             keyAlias keystoreProperties['releaseKeyAlias']
             keyPassword keystoreProperties['releaseKeyPassword']
             storeFile file(rootDir.getCanonicalPath() + '/' + keystoreProperties['releaseKeyStore'])
@@ -94,6 +102,8 @@ android {
 }
 
 dependencies {
+
+
 // Import the BoM for the Firebase platform
     implementation platform('com.google.firebase:firebase-bom:29.2.1')
     implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'

@@ -79,7 +79,6 @@
                     android:id="@+id/longitude"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@={`` + data.data.lon}"
                     android:layout_alignParentTop="true"
                     android:layout_marginEnd="16dp"
                     android:hint="longitude"

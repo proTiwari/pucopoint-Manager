@@ -14,6 +14,8 @@ import androidx.core.net.toUri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import com.firebase.geofire.GeoFireUtils
 import com.firebase.geofire.GeoLocation
 import com.github.gcacace.signaturepad.views.SignaturePad
@@ -21,6 +23,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
+import com.pucosa.pucopointManager.R
 import com.pucosa.pucopointManager.constants.DbCollections
 import com.pucosa.pucopointManager.models.Pucopoint
 import com.pucosa.pucopointManager.ui.newOnboarding.pages.OnboardingAgreement
@@ -30,11 +33,11 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import java.io.ByteArrayOutputStream
-import java.lang.Math.random
 
 
 class NewOnboardingViewModel(application: Application) : AndroidViewModel(application) {
 
+    private lateinit var navController: NavController
     var data = MutableLiveData(Pucopoint())
     var countryCode1 = MutableLiveData<String>("+91")
     var countryCode2 = MutableLiveData<String>("+91")
@@ -94,7 +97,7 @@ class NewOnboardingViewModel(application: Application) : AndroidViewModel(applic
         currData.city = city
         currData.streetAddress = streetAddress
         currData.lat = latitude
-        currData.lon = longitude
+        currData.long = longitude
         currData.pincode = pincode
         currData.geohash = GeoFireUtils.getGeoHashForLocation(GeoLocation(latitude, longitude))
         data.value = currData
@@ -116,7 +119,8 @@ class NewOnboardingViewModel(application: Application) : AndroidViewModel(applic
         view: View
     ) {
         viewModelScope.launch {
-            var id = random()
+            val pucoPointRef = Firebase.firestore.collection(DbCollections.PUCOPOINTS).document()
+            val id = pucoPointRef.id
             val model = data.value!!
             val shopImageUrl: Uri = model.shopImageUrl.toUri()
             val shopkeeperImageUrl: Uri = model.shopkeeperImageUrl.toUri()
@@ -140,7 +144,7 @@ class NewOnboardingViewModel(application: Application) : AndroidViewModel(applic
                 signaturePad.signatureBitmap,
                 context, view,id
             ) else null}
-            firebaseUriImageUpload(uploadShopJob.await(), uploadShopkeeperJob.await(), uploadAadharImageJob.await(), context, uploadSignaturePad.await())
+            firebaseUriImageUpload(uploadShopJob.await(), uploadShopkeeperJob.await(), uploadAadharImageJob.await(), context, uploadSignaturePad.await(), view, id)
         }
 
     }
@@ -149,7 +153,7 @@ class NewOnboardingViewModel(application: Application) : AndroidViewModel(applic
         signaturePad: Bitmap,
         context: Context,
         view: View,
-        id: Double
+        id: String?
     ): Uri? {
         val sign = compress(signaturePad)
         val model = data.value!!
@@ -196,24 +200,101 @@ class NewOnboardingViewModel(application: Application) : AndroidViewModel(applic
         aadharImageUri: Uri?,
         context: Context,
         signaturePad: Uri?,
+        view: View,
+        id: String
     ) {
         val pucoPointRef = Firebase.firestore.collection(DbCollections.PUCOPOINTS).document()
         val currData = data.value!!
-        currData.pid = pucoPointRef.id
+        currData.pid = id
         currData.shopImageUrl = shopUri.toString()
         currData.shopkeeperImageUrl = shopkeeperUri.toString()
         currData.aadharImageUrl = aadharImageUri.toString()
         currData.signaturePad = signaturePad.toString()
         currData.manager = Firebase.auth.currentUser!!.uid
         data.value = currData
-        pucoPointRef.set(currData).addOnSuccessListener {
-            Toast.makeText(context,"Successfully Saved", Toast.LENGTH_LONG).show()
-            data.value = Pucopoint()
-            Log.d(OnboardingAgreement.TAG, "during onboarding data load")
-        }.addOnFailureListener{
-            Log.e(OnboardingAgreement.TAG, "onViewCreated: error while onboarding", it)
-            Toast.makeText(context,"Failed", Toast.LENGTH_LONG).show()
+        if(currData.pid != "" || currData.name != "" || currData.email != "" || currData.phone != "" || currData.altPhone != "" || currData.aadhar != "" || currData.aadharImageUrl != "" || currData.shopImageUrl != "" || currData.shopkeeperImageUrl != "" || currData.signaturePad != "" || currData.lat != 0.0 ||
+        currData.long != 0.0 ||
+            currData.geohash != "" ||
+            currData.shopName != "" ||
+            currData.country != "" ||
+            currData.state != "" ||
+            currData.city != "" ||
+            currData.streetAddress != "" ||
+            currData.pincode != "" ||
+            currData.username != "" ||
+            currData.phoneCountryCode != "" ||
+            currData.altCountryCode != "" ||
+            currData.phoneNum != "" ||
+            currData.altNum != "" ||
+            currData.manager != "" ){
+
+            pucoPointRef.set(currData).addOnSuccessListener {
+                Toast.makeText(context,"Successfully Saved", Toast.LENGTH_LONG).show()
+                data.value = Pucopoint()
+                navController = Navigation.findNavController(view)
+                navController.navigate(R.id.action_global_pucoPointList)
+                Log.d(OnboardingAgreement.TAG, "during onboarding data load")
+                currData.pid = ""
+                currData.name = ""
+                currData.email = ""
+                currData.phone = ""
+                currData.altPhone = ""
+                currData.aadhar = ""
+                currData.aadharImageUrl = ""
+                currData.shopImageUrl = ""
+                currData.shopkeeperImageUrl = ""
+                currData.signaturePad = ""
+                currData.lat = 0.0
+                currData.long = 0.0
+                currData.geohash = ""
+                currData.shopName = ""
+                currData.country = ""
+                currData.state = ""
+                currData.city = ""
+                currData.streetAddress = ""
+                currData.pincode = ""
+                currData.username = ""
+                currData.phoneCountryCode = ""
+                currData.altCountryCode = ""
+                currData.phoneNum = ""
+                currData.altNum = ""
+                currData.manager = ""
+            }.addOnFailureListener{
+                Log.e(OnboardingAgreement.TAG, "onViewCreated: error while onboarding", it)
+                currData.pid = ""
+                currData.name = ""
+                currData.email = ""
+                currData.phone = ""
+                currData.altPhone = ""
+                currData.aadhar = ""
+                currData.aadharImageUrl = ""
+                currData.shopImageUrl = ""
+                currData.shopkeeperImageUrl = ""
+                currData.signaturePad = ""
+                currData.lat = 0.0
+                currData.long = 0.0
+                currData.geohash = ""
+                currData.shopName = ""
+                currData.country = ""
+                currData.state = ""
+                currData.city = ""
+                currData.streetAddress = ""
+                currData.pincode = ""
+                currData.username = ""
+                currData.phoneCountryCode = ""
+                currData.altCountryCode = ""
+                currData.phoneNum = ""
+                currData.altNum = ""
+                currData.manager = ""
+                Toast.makeText(context,"Failed", Toast.LENGTH_LONG).show()
+            }
+        } else{
+            Log.d(TAG, "firebaseUriImageUpload: something went wrong")
+            Toast.makeText(context, "something went wrong!", Toast.LENGTH_LONG).show()
+            navController = Navigation.findNavController(view)
+            navController.navigate(R.id.action_global_pucoPointList)
         }
+
     }
 
     private suspend fun uploadImage(
@@ -221,7 +302,7 @@ class NewOnboardingViewModel(application: Application) : AndroidViewModel(applic
         type: ImageType,
         context: Context,
         view: View,
-        id: Double
+        id: String?
     ): Uri{
         val model = data.value!!
         Looper.prepare()

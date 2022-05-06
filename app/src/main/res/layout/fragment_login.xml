@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
 
 <data>
         <variable
@@ -56,78 +56,49 @@
 
         </FrameLayout>
 
-        <RelativeLayout
-            android:layout_width="305dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="60dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="0dp"
-            android:layout_marginRight="62dp"
-            android:background="@drawable/blue_border_rounded_cornwe">
 
-            <EditText
-                android:id="@+id/Edt_email"
+        <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/username_icon"
-                android:background="@android:color/transparent"
-                android:fontFamily="@font/poppins_regular"
-                android:hint="Email"
-                android:inputType="textEmailAddress"
-                android:maxLines="1"
-                android:paddingLeft="17dp"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:text="@={data.email}"
-                android:textColor="@android:color/black"
-                android:textCursorDrawable="@drawable/cursor_color"
-                android:textSize="16dp" />
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="60dp"
+                android:layout_marginTop="7dp"
+                android:hint="email"
+                android:layout_marginRight="62dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:startIconDrawable="@drawable/ic_baseline_email_24"
+                >
 
-            <ImageView
-                android:id="@+id/username_icon"
-                android:layout_width="16.7dp"
-                android:layout_height="12.3dp"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="17dp"
-                android:src="@drawable/email" />
+            <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@={data.data.email}"
+                    android:id="@+id/email_op"
+                    android:inputType="textEmailAddress" />
 
-        </RelativeLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <RelativeLayout
-            android:layout_gravity="center_horizontal"
-            android:layout_width="305dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="60dp"
-            android:layout_marginTop="7dp"
-            android:layout_marginRight="62dp"
-            android:background="@drawable/blue_border_rounded_cornwe">
+        <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginLeft="60dp"
+                    android:layout_marginTop="7dp"
+                    android:hint="password"
+                    android:layout_marginRight="62dp"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    app:startIconDrawable="@drawable/ic_baseline_vpn_key_24"
+                    app:endIconDrawable="@drawable/show_password_selector"
+                    app:endIconMode="password_toggle">
 
+                <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@={data.data.password}"
+                        android:id="@+id/password_op"
+                        android:inputType="textPassword" />
 
-            <EditText
-                android:id="@+id/Edt_password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@={data.password}"
-                android:layout_toRightOf="@+id/icon"
-                android:background="@android:color/transparent"
-                android:fontFamily="@font/poppins_regular"
-                android:hint="Password"
-                android:paddingLeft="17dp"
-                android:inputType="textPassword"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:textColor="@android:color/black"
-                android:textCursorDrawable="@drawable/cursor_color"
-                android:textSize="16sp" />
-
-            <ImageView
-                android:id="@+id/icon"
-                android:layout_width="16.7dp"
-                android:layout_height="12.3dp"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="17dp"
-                android:src="@drawable/password" />
-        </RelativeLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/loginId"

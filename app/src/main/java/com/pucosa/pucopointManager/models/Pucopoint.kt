@@ -20,7 +20,7 @@ data class Pucopoint(
     var shopImageUrl: String = "",
     var signaturePad: String? = "",
     var lat: Double? = 0.0,
-    var lon: Double? = 0.0,
+    var long: Double? = 0.0,
     var geohash: String = "",
     var shopName: String = "",
     var country: String = "",

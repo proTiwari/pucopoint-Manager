@@ -1,7 +1,6 @@
 package com.pucosa.pucopointManager.ui.newOnboarding.pages
 
 import android.Manifest
-import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
@@ -14,10 +13,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -30,7 +31,6 @@ import com.pucosa.pucopointManager.utils.LocationUtils
 
 
 class OnboardingShopInfo : Fragment() {
-
 
     private lateinit var binding: FragmentOnboardingShopInfoBinding
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
@@ -71,6 +71,7 @@ class OnboardingShopInfo : Fragment() {
             requestPermission()
             getLastLocation()
         }
+
         navController = Navigation.findNavController(view)
         binding.proceedButton.setOnClickListener {
             val country = binding.country.text.toString()
@@ -241,7 +242,7 @@ class OnboardingShopInfo : Fragment() {
             viewModel.data.value?.pincode = postCode
         }
         viewModel.data.value?.lat = latitude?.toDouble()
-        viewModel.data.value?.lon = longitude?.toDouble()
+        viewModel.data.value?.long = longitude?.toDouble()
 
         binding.country.setText(countryName)
         binding.state.setText(state)

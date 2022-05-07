@@ -212,20 +212,30 @@ class NewOnboardingViewModel(application: Application) : AndroidViewModel(applic
         currData.signaturePad = signaturePad.toString()
         currData.manager = Firebase.auth.currentUser!!.uid
         data.value = currData
-        if(currData.pid != "" || currData.name != "" || currData.email != "" || currData.phone != "" || currData.altPhone != "" || currData.aadhar != "" || currData.aadharImageUrl != "" || currData.shopImageUrl != "" || currData.shopkeeperImageUrl != "" || currData.signaturePad != "" || currData.lat != 0.0 ||
-        currData.long != 0.0 ||
-            currData.geohash != "" ||
-            currData.shopName != "" ||
-            currData.country != "" ||
-            currData.state != "" ||
-            currData.city != "" ||
-            currData.streetAddress != "" ||
-            currData.pincode != "" ||
-            currData.username != "" ||
-            currData.phoneCountryCode != "" ||
-            currData.altCountryCode != "" ||
-            currData.phoneNum != "" ||
-            currData.altNum != "" ||
+        if(currData.pid != "" &&
+            currData.name != "" &&
+            currData.email != "" &&
+            currData.phone != "" &&
+            currData.altPhone != "" &&
+            currData.aadhar != "" &&
+            currData.aadharImageUrl != "" &&
+            currData.shopImageUrl != "" &&
+            currData.shopkeeperImageUrl != "" &&
+            currData.signaturePad != "" &&
+            currData.lat != 0.0 &&
+        currData.long != 0.0 &&
+            currData.geohash != "" &&
+            currData.shopName != "" &&
+            currData.country != "" &&
+            currData.state != "" &&
+            currData.city != "" &&
+            currData.streetAddress != "" &&
+            currData.pincode != "" &&
+            currData.username != "" &&
+            currData.phoneCountryCode != "" &&
+            currData.altCountryCode != "" &&
+            currData.phoneNum != "" &&
+            currData.altNum != "" &&
             currData.manager != "" ){
 
             pucoPointRef.set(currData).addOnSuccessListener {

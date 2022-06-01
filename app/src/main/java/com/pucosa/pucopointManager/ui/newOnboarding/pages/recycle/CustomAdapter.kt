@@ -1,6 +1,7 @@
 package com.pucosa.pucopointManager.ui.newOnboarding.pages.recycle
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +17,7 @@ import com.pucosa.pucopointManager.models.Pucopoint
 import kotlinx.coroutines.processNextEventInCurrentThread
 
 class CustomAdapter(
+    context: Context?,
     options: FirestoreRecyclerOptions<Pucopoint>,
     val loadingComplete: (itemCount: Int) -> Unit,
     val onItemClicked: (pucopoint: Pucopoint, Int) -> Unit

@@ -77,8 +77,14 @@ class MainActivity : AppCompatActivity() {
             .show()
     }
 
+
+
     fun writtingFragment(view: View) {
         navController?.navigate(R.id.action_onboarding_agreement_to_writtenAgreement)
+    }
+
+    fun mapActivity(view: View) {
+        navController?.navigate(R.id.action_pucoPointList_to_mapsActivity)
     }
 
 //    fun plus(view: View) {

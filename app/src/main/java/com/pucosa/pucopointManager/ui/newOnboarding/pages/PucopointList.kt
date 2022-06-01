@@ -13,6 +13,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.pucosa.pucopointManager.R
 import com.pucosa.pucopointManager.databinding.PucopointListBinding
+import com.pucosa.pucopointManager.databinding.SinglerowBinding
 import com.pucosa.pucopointManager.models.Pucopoint
 import com.pucosa.pucopointManager.ui.newOnboarding.pages.recycle.CustomAdapter
 
@@ -21,6 +22,7 @@ class PucopointList : Fragment() {
     private lateinit var binding: PucopointListBinding
     private lateinit var navController: NavController
     var userAdapter: CustomAdapter? = null
+    private lateinit var bindingSinglerowBinding: SinglerowBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +34,8 @@ class PucopointList : Fragment() {
         savedInstanceState: Bundle?,
     ): View {
         binding = PucopointListBinding.inflate(inflater, container, false)
+        bindingSinglerowBinding = SinglerowBinding.inflate(inflater, container, false)
+
         return binding.root
     }
 
@@ -39,9 +43,7 @@ class PucopointList : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         navController = Navigation.findNavController(view)
 
-        binding.mapIcon2.setOnClickListener{
-            navController.navigate(R.id.action_pucoPointList_to_mapsActivity)
-        }
+
 
         setListAdapter()
         binding.plusicon.setOnClickListener {
@@ -75,25 +77,23 @@ class PucopointList : Fragment() {
 
         try {
             userAdapter = CustomAdapter(
+                context,
                 options = options,
                 loadingComplete = {
-                },
-                onItemClicked = { model, position ->
-                    val direction = PucopointListDirections.actionPucoPointListToShopkeeperFullDetail(model)
-                    navController.navigate(direction)
                 }
-            )
+            ) { model, position ->
+                val direction =
+                    PucopointListDirections.actionPucoPointListToShopkeeperFullDetail(model)
+                navController.navigate(direction)
+            }
         } catch (e: IndexOutOfBoundsException) {
             Log.e("TAG", "meet a IOOBE in RecyclerView")
         }
-
         val linearLayoutManager = LinearLayoutManager(context)
         binding.recycler.layoutManager = linearLayoutManager
         binding.recycler.itemAnimator = null
         binding.recycler.adapter = userAdapter!!
-
     }
-
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.searchmenu,menu)
@@ -115,12 +115,7 @@ class PucopointList : Fragment() {
             }
         })
     }
-
-
     companion object {
         private const val TAG = "PucopointList"
     }
-
 }
-
-

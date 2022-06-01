@@ -6,15 +6,18 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Recycler
+import com.bumptech.glide.Glide
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.pucosa.pucopointManager.R
 import com.pucosa.pucopointManager.models.Pucopoint
 import kotlinx.coroutines.processNextEventInCurrentThread
+import org.w3c.dom.Text
 
 class CustomAdapter(
     context: Context?,
@@ -22,6 +25,8 @@ class CustomAdapter(
     val loadingComplete: (itemCount: Int) -> Unit,
     val onItemClicked: (pucopoint: Pucopoint, Int) -> Unit
 ) : FirestoreRecyclerAdapter<Pucopoint, CustomAdapter.ViewHolder>(options) {
+
+    private var context: Context? = context
 
     private var searchText: String = ""
     // indicate if search mode
@@ -76,11 +81,19 @@ class CustomAdapter(
       //  val imageView: ImageView = itemView.findViewById(R.id.image)
         val name = itemView.findViewById<TextView>(R.id.name)
         val locality = itemView.findViewById<TextView>(R.id.locality)
+        val phone = itemView.findViewById<TextView>(R.id.phone)
+        val email = itemView.findViewById<TextView>(R.id.email)
+        val image = itemView.findViewById<ImageView>(R.id.image)
+
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int, pucopoint: Pucopoint) {
         holder.name.text = pucopoint.name
         holder.locality.text = pucopoint.streetAddress
+        holder.phone.text = pucopoint.phone
+        holder.email.text = pucopoint.email
+        context?.let { Glide.with(it).load(pucopoint.shopkeeperImageUrl).into(holder.image) }
+
         holder.itemView.setOnClickListener{
             onItemClicked(pucopoint, position)
         }

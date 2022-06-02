@@ -49,9 +49,9 @@ class NewOnboardingViewModel(application: Application) : AndroidViewModel(applic
 
 
     fun aadharDetailsChanged(url: Uri, aadhar: String) {
-        val currData = data.value!!
-        currData.aadhar = aadhar
-        currData.aadharImageUrl = url.toString()
+        val currData = data.value
+        currData?.aadhar = aadhar
+        currData?.aadharImageUrl = url.toString()
         data.value = currData
     }
 
@@ -67,18 +67,18 @@ class NewOnboardingViewModel(application: Application) : AndroidViewModel(applic
         altCountryCode: String,
         altNum: String
     ){
-        val currData = data.value!!
+        val currData = data.value
 
-        currData.name = Name
-        currData.email = Email
-        currData.phone = Phone
-        currData.altPhone = AltPhone
-        currData.shopkeeperImageUrl = shopkeeperImageUrl
-        currData.username = username
-        currData.phoneCountryCode = phoneCountryCode
-        currData.altCountryCode = altCountryCode
-        currData.phoneNum = phoneNum
-        currData.altNum = altNum
+        currData?.name = Name
+        currData?.email = Email
+        currData?.phone = Phone
+        currData?.altPhone = AltPhone
+        currData?.shopkeeperImageUrl = shopkeeperImageUrl
+        currData?.username = username
+        currData?.phoneCountryCode = phoneCountryCode
+        currData?.altCountryCode = altCountryCode
+        currData?.phoneNum = phoneNum
+        currData?.altNum = altNum
         data.value = currData
     }
 
@@ -91,23 +91,23 @@ class NewOnboardingViewModel(application: Application) : AndroidViewModel(applic
         latitude: Double,
         longitude: Double,
     ){
-        val currData = data.value!!
-        currData.country = country
-        currData.state = state
-        currData.city = city
-        currData.streetAddress = streetAddress
-        currData.lat = latitude
-        currData.long = longitude
-        currData.pincode = pincode
-        currData.geohash = GeoFireUtils.getGeoHashForLocation(GeoLocation(latitude, longitude))
+        val currData = data.value
+        currData?.country = country
+        currData?.state = state
+        currData?.city = city
+        currData?.streetAddress = streetAddress
+        currData?.lat = latitude
+        currData?.long = longitude
+        currData?.pincode = pincode
+        currData?.geohash = GeoFireUtils.getGeoHashForLocation(GeoLocation(latitude, longitude))
         data.value = currData
 
     }
 
     fun shopImageDetailChanged(shopName: String, shopImageUrl: Uri) {
-        val currData = data.value!!
-        currData.shopName = shopName
-        currData.shopImageUrl = shopImageUrl.toString()
+        val currData = data.value
+        currData?.shopName = shopName
+        currData?.shopImageUrl = shopImageUrl.toString()
         data.value = currData
     }
 
@@ -204,99 +204,103 @@ class NewOnboardingViewModel(application: Application) : AndroidViewModel(applic
         id: String
     ) {
         val pucoPointRef = Firebase.firestore.collection(DbCollections.PUCOPOINTS).document()
-        val currData = data.value!!
-        currData.pid = id
-        currData.shopImageUrl = shopUri.toString()
-        currData.shopkeeperImageUrl = shopkeeperUri.toString()
-        currData.aadharImageUrl = aadharImageUri.toString()
-        currData.signaturePad = signaturePad.toString()
-        currData.manager = Firebase.auth.currentUser!!.uid
+        val currData = data.value
+        currData?.pid = id
+        currData?.shopImageUrl = shopUri.toString()
+        currData?.shopkeeperImageUrl = shopkeeperUri.toString()
+        currData?.aadharImageUrl = aadharImageUri.toString()
+        currData?.signaturePad = signaturePad.toString()
+        currData?.manager = Firebase.auth.currentUser?.uid.toString()
         data.value = currData
-        if(currData.pid != "" &&
-            currData.name != "" &&
-            currData.email != "" &&
-            currData.phone != "" &&
-            currData.altPhone != "" &&
-            currData.aadhar != "" &&
-            currData.aadharImageUrl != "" &&
-            currData.shopImageUrl != "" &&
-            currData.shopkeeperImageUrl != "" &&
-            currData.signaturePad != "" &&
-            currData.lat != 0.0 &&
-        currData.long != 0.0 &&
-            currData.geohash != "" &&
-            currData.shopName != "" &&
-            currData.country != "" &&
-            currData.state != "" &&
-            currData.city != "" &&
-            currData.streetAddress != "" &&
-            currData.pincode != "" &&
-            currData.username != "" &&
-            currData.phoneCountryCode != "" &&
-            currData.altCountryCode != "" &&
-            currData.phoneNum != "" &&
-            currData.altNum != "" &&
-            currData.manager != "" ){
 
-            pucoPointRef.set(currData).addOnSuccessListener {
-                Toast.makeText(context,"Successfully Saved", Toast.LENGTH_LONG).show()
-                data.value = Pucopoint()
-                navController = Navigation.findNavController(view)
-                navController.navigate(R.id.action_global_pucoPointList)
-                Log.d(OnboardingAgreement.TAG, "during onboarding data load")
-                currData.pid = ""
-                currData.name = ""
-                currData.email = ""
-                currData.phone = ""
-                currData.altPhone = ""
-                currData.aadhar = ""
-                currData.aadharImageUrl = ""
-                currData.shopImageUrl = ""
-                currData.shopkeeperImageUrl = ""
-                currData.signaturePad = ""
-                currData.lat = 0.0
-                currData.long = 0.0
-                currData.geohash = ""
-                currData.shopName = ""
-                currData.country = ""
-                currData.state = ""
-                currData.city = ""
-                currData.streetAddress = ""
-                currData.pincode = ""
-                currData.username = ""
-                currData.phoneCountryCode = ""
-                currData.altCountryCode = ""
-                currData.phoneNum = ""
-                currData.altNum = ""
-                currData.manager = ""
-            }.addOnFailureListener{
-                Log.e(OnboardingAgreement.TAG, "onViewCreated: error while onboarding", it)
-                currData.pid = ""
-                currData.name = ""
-                currData.email = ""
-                currData.phone = ""
-                currData.altPhone = ""
-                currData.aadhar = ""
-                currData.aadharImageUrl = ""
-                currData.shopImageUrl = ""
-                currData.shopkeeperImageUrl = ""
-                currData.signaturePad = ""
-                currData.lat = 0.0
-                currData.long = 0.0
-                currData.geohash = ""
-                currData.shopName = ""
-                currData.country = ""
-                currData.state = ""
-                currData.city = ""
-                currData.streetAddress = ""
-                currData.pincode = ""
-                currData.username = ""
-                currData.phoneCountryCode = ""
-                currData.altCountryCode = ""
-                currData.phoneNum = ""
-                currData.altNum = ""
-                currData.manager = ""
-                Toast.makeText(context,"Failed", Toast.LENGTH_LONG).show()
+        if(currData?.pid != "" &&
+            currData?.name != "" &&
+            currData?.email != "" &&
+            currData?.phone != "" &&
+            currData?.altPhone != "" &&
+            currData?.aadhar != "" &&
+            currData?.aadharImageUrl != "" &&
+            currData?.shopImageUrl != "" &&
+            currData?.shopkeeperImageUrl != "" &&
+            currData?.signaturePad != "" &&
+            currData?.lat != 0.0 &&
+        currData?.long != 0.0 &&
+            currData?.geohash != "" &&
+            currData?.shopName != "" &&
+            currData?.country != "" &&
+            currData?.state != "" &&
+            currData?.city != "" &&
+            currData?.streetAddress != "" &&
+            currData?.pincode != "" &&
+            currData?.username != "" &&
+            currData?.phoneCountryCode != "" &&
+            currData?.altCountryCode != "" &&
+            currData?.phoneNum != "" &&
+            currData?.altNum != "" &&
+            currData?.manager != "" ){
+
+            if (currData != null) {
+
+                pucoPointRef.set(currData).addOnSuccessListener {
+                    Toast.makeText(context,"Successfully Saved", Toast.LENGTH_LONG).show()
+                    data.value = Pucopoint()
+                    navController = Navigation.findNavController(view)
+                    navController.navigate(R.id.action_global_pucoPointList)
+                    Log.d(OnboardingAgreement.TAG, "during onboarding data load")
+                    currData.pid = ""
+                    currData.name = ""
+                    currData.email = ""
+                    currData.phone = ""
+                    currData.altPhone = ""
+                    currData.aadhar = ""
+                    currData.aadharImageUrl = ""
+                    currData.shopImageUrl = ""
+                    currData.shopkeeperImageUrl = ""
+                    currData.signaturePad = ""
+                    currData.lat = 0.0
+                    currData.long = 0.0
+                    currData.geohash = ""
+                    currData.shopName = ""
+                    currData.country = ""
+                    currData.state = ""
+                    currData.city = ""
+                    currData.streetAddress = ""
+                    currData.pincode = ""
+                    currData.username = ""
+                    currData.phoneCountryCode = ""
+                    currData.altCountryCode = ""
+                    currData.phoneNum = ""
+                    currData.altNum = ""
+                    currData.manager = ""
+                }.addOnFailureListener{
+                    Log.e(OnboardingAgreement.TAG, "onViewCreated: error while onboarding", it)
+                    currData.pid = ""
+                    currData.name = ""
+                    currData.email = ""
+                    currData.phone = ""
+                    currData.altPhone = ""
+                    currData.aadhar = ""
+                    currData.aadharImageUrl = ""
+                    currData.shopImageUrl = ""
+                    currData.shopkeeperImageUrl = ""
+                    currData.signaturePad = ""
+                    currData.lat = 0.0
+                    currData.long = 0.0
+                    currData.geohash = ""
+                    currData.shopName = ""
+                    currData.country = ""
+                    currData.state = ""
+                    currData.city = ""
+                    currData.streetAddress = ""
+                    currData.pincode = ""
+                    currData.username = ""
+                    currData.phoneCountryCode = ""
+                    currData.altCountryCode = ""
+                    currData.phoneNum = ""
+                    currData.altNum = ""
+                    currData.manager = ""
+                    Toast.makeText(context,"Failed", Toast.LENGTH_LONG).show()
+                }
             }
         } else{
             Log.d(TAG, "firebaseUriImageUpload: something went wrong")

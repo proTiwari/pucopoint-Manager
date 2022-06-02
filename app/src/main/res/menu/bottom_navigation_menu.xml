@@ -9,14 +9,15 @@
             android:enabled="true"
             android:icon="@drawable/ic_baseline_notifications_24"
             android:title="Notification"/>
+
     <item
-            android:id="@+id/search"
-            android:enabled="true"
-            android:icon="@drawable/search"
-            android:title="search"/>
+            android:id="@+id/plusicon"
+            android:icon="@drawable/ic_baseline_add_circle_24"
+            android:title="" />
+
+
     <item
             android:id="@+id/payment"
-            android:onClick="payment"
             android:enabled="true"
             android:icon="@drawable/ic_baseline_payment_24"
             android:title="payment"/>

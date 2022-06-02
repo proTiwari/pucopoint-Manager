@@ -9,6 +9,7 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -24,6 +25,7 @@ class PucopointList : Fragment() {
     private lateinit var navController: NavController
     var userAdapter: CustomAdapter? = null
     private lateinit var bindingSinglerowBinding: SinglerowBinding
+    private var bottomNavigationView: BottomNavigationView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,13 +45,27 @@ class PucopointList : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navController = Navigation.findNavController(view)
+        bottomNavigationView?.itemIconTintList = null
+        binding.bottomAppBar.menu.findItem(R.id.notification).setOnMenuItemClickListener {
+            navController.navigate(R.id.action_pucoPointList_to_notificationFragment)
+            true
+        }
+
+        binding.bottomAppBar.menu.findItem(R.id.plusicon).setOnMenuItemClickListener {
+            navController.navigate(R.id.action_pucoPointList_to_onboarding_shopkeeper_info)
+            true
+        }
+
+        binding.bottomAppBar.menu.findItem(R.id.payment).setOnMenuItemClickListener {
+            navController.navigate(R.id.action_pucoPointList_to_paymentList)
+            true
+        }
+
+
 
 
 
         setListAdapter()
-        binding.plusicon.setOnClickListener {
-            navController.navigate(R.id.action_pucoPointList_to_onboarding_shopkeeper_info)
-        }
 ////            val action = PucopointListDirections.actionPucoPointListToOnboardingShopkeeperInfo()
 ////            closeKeyboard()
 ////            navController.navigate(action)
@@ -97,8 +113,12 @@ class PucopointList : Fragment() {
     }
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
+
         inflater.inflate(R.menu.searchmenu,menu)
-        val searchView = menu.findItem(R.id.search_view).actionView as SearchView
+
+//        val searchView = menu.findItem(R.id.search).actionView as SearchView
+        val searchView = binding.search
+
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(s:String?): Boolean {
                 Log.d(TAG, "onQueryTextSubmit: $s")

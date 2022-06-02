@@ -82,6 +82,10 @@ class OnboardingAgreement: Fragment() {
         navController = Navigation.findNavController(view)
         binding.accept2.setOnClickListener {
             binding.progressbar.visibility = View.VISIBLE
+            binding.accept2.isEnabled = false
+            binding.clear.isEnabled = false
+            binding.checkBox1.isEnabled = false
+            binding.writtenAgreement.isEnabled = false
             onboardingImageUploadFun(signaturePad, view)
 
 //            navController.navigate(R.id.action_global_pucoPointList)

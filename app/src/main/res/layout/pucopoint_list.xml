@@ -9,18 +9,48 @@
     tools:context=".MainActivity">
 
 
+    <SearchView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="5dp"
+            android:id="@+id/search"
+            android:queryHint="puco Points"
+            android:iconifiedByDefault="false"
+            android:layout_marginHorizontal="16dp"
+            android:background="@drawable/searchview_background"
+            android:queryBackground="@android:color/transparent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginBottom="5dp"
+            app:layout_constraintBottom_toTopOf="@+id/recycler" />
 
-        <androidx.recyclerview.widget.RecyclerView
+
+<!--    <com.google.android.material.bottomnavigation.BottomNavigationView-->
+<!--            android:id="@+id/search_mag_icon"-->
+<!--            style="@style/Widget.MaterialComponents.BottomNavigationView"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_gravity="top"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:menu="@menu/searchmenu"-->
+<!--            app:layout_constraintTop_toTopOf="@+id/coordinatorLayout"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintBottom_toTopOf="@+id/recycler"-->
+<!--            app:layout_constraintEnd_toEndOf="parent" />-->
+
+    <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginTop="60dp"
             tools:itemCount="10"
             tools:listitem="@layout/singlerow"
+            app:layout_constraintTop_toBottomOf="@+id/search"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginBottom="50dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent" />
 
 <!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
 <!--        android:id="@+id/plus_icon"-->
@@ -50,19 +80,15 @@
 
 
 
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_gravity="bottom"
-                android:layout_height="wrap_content">
 
             <com.google.android.material.bottomnavigation.BottomNavigationView
                     android:id="@+id/bottomAppBar"
-                    style="@style/Widget.MaterialComponents.BottomNavigationView.Colored"
+                    style="@style/Widget.MaterialComponents.BottomNavigationView"
                     android:layout_width="match_parent"
+                    android:layout_gravity="bottom"
                     android:layout_height="wrap_content"
                     app:menu="@menu/bottom_navigation_menu" />
 
-        </LinearLayout>
 
 
 
@@ -70,16 +96,16 @@
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/plusicon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorPrimary"
-            android:src="@drawable/ic_baseline_add_circle_24"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="543dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="62dp" />
+<!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+<!--            android:id="@+id/plusicon"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:backgroundTint="@color/colorPrimary"-->
+<!--            android:src="@drawable/ic_baseline_add_circle_24"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            android:layout_marginTop="543dp"-->
+<!--            android:layout_marginEnd="10dp"-->
+<!--            android:layout_marginBottom="62dp" />-->
 </androidx.constraintlayout.widget.ConstraintLayout>

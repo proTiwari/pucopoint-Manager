@@ -79,6 +79,9 @@ class MainActivity : AppCompatActivity() {
 
 
 
+
+
+
     fun writtingFragment(view: View) {
         navController?.navigate(R.id.action_onboarding_agreement_to_writtenAgreement)
     }
@@ -86,6 +89,9 @@ class MainActivity : AppCompatActivity() {
     fun mapActivity(view: View) {
         navController?.navigate(R.id.action_pucoPointList_to_mapsActivity)
     }
+
+
+
 
 //    fun plus(view: View) {
 //        navController?.navigate(R.id.action_paymentList_to_onboarding_shopkeeper_info)

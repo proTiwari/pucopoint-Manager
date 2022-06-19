@@ -1,13 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    >
+
+<menu
+		xmlns:app="http://schemas.android.com/apk/res-auto"
+		xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<!--Search view widget as item in menu-->
+
 	<item
 			android:icon="@drawable/search"
 			android:id="@+id/search"
+			android:title="Search"
 			app:actionViewClass="android.widget.SearchView"
-			android:title="Search" >
-
-
-	</item>
-</menu>
+			app:showAsAction="ifRoom"
+			/>
+	<item
+			android:id="@+id/map_icon2"
+			style="@style/Widget.MaterialComponents.BottomNavigationView.Colored"
+			android:layout_height="70dp"
+			android:onClick="mapActivity"
+			android:icon="@drawable/ic_baseline_fmd_good_24"
+			app:menu="@menu/bottom_navigation_menu"
+			app:showAsAction="ifRoom"
+			android:title="Map" />
+</menu>  

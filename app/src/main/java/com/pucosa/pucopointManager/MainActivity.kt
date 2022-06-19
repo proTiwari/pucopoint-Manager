@@ -13,10 +13,11 @@ import com.google.firebase.appcheck.safetynet.SafetyNetAppCheckProviderFactory
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.pucosa.pucopointManager.ui.newOnboarding.pages.PucopointListDirections
 
 
 class MainActivity : AppCompatActivity() {
-
+//    private var map: com.pucosa.pucopointManager.models.Map? = null
     var authStateListener: FirebaseAuth.AuthStateListener? = null
     var navController: NavController? = null
 
@@ -86,11 +87,12 @@ class MainActivity : AppCompatActivity() {
         navController?.navigate(R.id.action_onboarding_agreement_to_writtenAgreement)
     }
 
-    fun mapActivity(view: View) {
+
+    fun mapActivity(item: MenuItem) {
         navController?.navigate(R.id.action_pucoPointList_to_mapsActivity)
+//        val direction = PucopointListDirections.actionPucoPointListToMapsActivity(map!!)
+//        navController?.navigate(direction)
     }
-
-
 
 
 //    fun plus(view: View) {

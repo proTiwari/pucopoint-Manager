@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Final_onboarding" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="Theme.Final_onboarding" parent="Theme.MaterialComponents.Light">
 
         <item name="android:forceDarkAllowed" tools:targetApi="q"> false </item>
         <!-- Primary brand color. -->

@@ -33,6 +33,7 @@ import com.pucosa.pucopointManager.utils.LocationUtils
 class OnboardingShopInfo : Fragment() {
 
     private lateinit var binding: FragmentOnboardingShopInfoBinding
+//    private var binding = _binding!!
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var navController: NavController
     private var PERMISSION_ID: Int = 44
@@ -41,6 +42,11 @@ class OnboardingShopInfo : Fragment() {
     var locality :String? = null
     private lateinit var viewModel: NewOnboardingViewModel
     var geohash : String? = ""
+
+//    override fun onDestroyView() {
+//        super.onDestroyView()
+//        binding = null
+//    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

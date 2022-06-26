@@ -1,6 +1,9 @@
 package com.pucosa.pucopointManager
 
+import android.content.ContentValues.TAG
 import android.os.Bundle
+import android.util.Log
+import android.view.Choreographer
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -13,7 +16,8 @@ import com.google.firebase.appcheck.safetynet.SafetyNetAppCheckProviderFactory
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import com.pucosa.pucopointManager.ui.newOnboarding.pages.PucopointListDirections
+import java.lang.reflect.Field
+import java.lang.reflect.Modifier
 
 
 class MainActivity : AppCompatActivity() {
@@ -23,7 +27,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         FirebaseApp.initializeApp(/*context=*/this)
         val firebaseAppCheck = FirebaseAppCheck.getInstance()
         firebaseAppCheck.installAppCheckProviderFactory(
@@ -77,9 +80,6 @@ class MainActivity : AppCompatActivity() {
             }
             .show()
     }
-
-
-
 
 
 

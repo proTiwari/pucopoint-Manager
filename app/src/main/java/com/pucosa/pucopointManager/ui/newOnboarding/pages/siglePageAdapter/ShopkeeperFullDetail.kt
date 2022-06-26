@@ -29,9 +29,13 @@ class ShopkeeperFullDetail : Fragment() {
     private val collectionReference: CollectionReference = db.collection("pucopoints")
     var userAdapter: PageAdapterViewModel? = null
     private lateinit var binding: PucopointFullDetailBinding
+//    private var binding = _binding!!
     private var pucopoint: Pucopoint? = null
-
-
+//
+//    override fun onDestroyView() {
+//        super.onDestroyView()
+//        _binding = null
+//    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

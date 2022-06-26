@@ -19,10 +19,17 @@ import com.pucosa.pucopointManager.utils.ImageCaptureManager
 
 class ShopImageFragment : Fragment() {
     private lateinit var binding: FragmentShopImageBinding
+//    private var binding = _binding!!
     lateinit var viewModel: NewOnboardingViewModel
     private lateinit var navController: NavController
     private lateinit var imageCaptureManager: ImageCaptureManager
     private var shopImageUri: Uri = Uri.EMPTY
+
+
+//    override fun onDestroyView() {
+//        super.onDestroyView()
+//        _binding = null
+//    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

@@ -1,15 +1,14 @@
 package com.pucosa.pucopointManager.ui.newOnboarding.pages
 
-import android.R.menu
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.SearchView
-import androidx.appcompat.widget.AppCompatImageView
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.ktx.auth
@@ -18,19 +17,22 @@ import com.google.firebase.ktx.Firebase
 import com.pucosa.pucopointManager.R
 import com.pucosa.pucopointManager.databinding.PucopointListBinding
 import com.pucosa.pucopointManager.databinding.SinglerowBinding
-import com.pucosa.pucopointManager.models.Map
 import com.pucosa.pucopointManager.models.Pucopoint
 import com.pucosa.pucopointManager.ui.newOnboarding.pages.recycle.CustomAdapter
 
 
 class PucopointList : Fragment() {
     private lateinit var binding: PucopointListBinding
+//    private var _binding = _binding!!
     private lateinit var navController: NavController
     var userAdapter: CustomAdapter? = null
     private lateinit var bindingSinglerowBinding: SinglerowBinding
     private var bottomNavigationView: BottomNavigationView? = null
 
-
+//    override fun onDestroyView() {
+//        super.onDestroyView()
+//        _binding = null
+//    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
@@ -99,8 +101,13 @@ class PucopointList : Fragment() {
         } catch (e: IndexOutOfBoundsException) {
             Log.e("TAG", "meet a IOOBE in RecyclerView")
         }
-        val linearLayoutManager = LinearLayoutManager(context)
-        binding.recycler.layoutManager = linearLayoutManager
+//        val linearLayoutManager = LinearLayoutManager(context)
+
+            val linearLayoutManager = StaggeredGridLayoutManager(
+                1,  //The number of Columns in the grid
+                LinearLayoutManager.VERTICAL
+            )
+            binding.recycler.layoutManager = linearLayoutManager
         binding.recycler.itemAnimator = null
         binding.recycler.adapter = userAdapter!!
     }

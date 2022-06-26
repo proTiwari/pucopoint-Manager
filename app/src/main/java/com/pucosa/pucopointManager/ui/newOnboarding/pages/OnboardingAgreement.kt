@@ -23,8 +23,15 @@ import com.pucosa.pucopointManager.ui.newOnboarding.NewOnboardingViewModel
 
 class OnboardingAgreement: Fragment() {
     private lateinit var binding : FragmentOnboardingAgreementBinding
+//    private var binding = _binding!!
     private lateinit var navController: NavController
     private var viewModel: NewOnboardingViewModel? = null
+
+//    override fun onDestroyView() {
+//        super.onDestroyView()
+//        _binding = null
+//    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,

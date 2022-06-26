@@ -1,23 +1,25 @@
 package com.pucosa.pucopointManager.map
 
-import android.R
-import android.R.attr.centerY
-import android.R.attr.radius
-import android.graphics.Point
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.pucosa.pucopointManager.databinding.ActivityMapsBinding
+import com.pucosa.pucopointManager.models.Pucopoint
+import com.pucosa.pucopointManager.models.model
 import com.pucosa.pucopointManager.ui.newOnboarding.pages.PucopointList
-import kotlinx.coroutines.DelicateCoroutinesApi
+import id.zelory.compressor.determineImageRotation
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
@@ -26,9 +28,16 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private var mMap: GoogleMap? = null
     private val circles: ArrayList<Circle> = ArrayList()
+    private val circles1: ArrayList<Circle> = ArrayList()
+    private var circle1: Circle? = null
     private var circle: Circle? = null
+    private var context: Context? = null
     private var count = 0
+    private var markerArray: ArrayList<Marker> = ArrayList()
+    private var marker: Marker? = null
+    private var countcircles = 1
     private var countLocation = 0
+    var userAdapter: MapAdapter? = null
     private lateinit var binding: ActivityMapsBinding
     private var locationArrayList: ArrayList<String>? = ArrayList()
 
@@ -37,47 +46,110 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         binding = ActivityMapsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
             .findFragmentById(com.pucosa.pucopointManager.R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
+
+        Log.d(TAG, "onCreate: mapactivity")
         GlobalScope.launch{
             location()
         }
+        setListAdapter()
     }
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
+    private fun setListAdapter() {
+        val query = Firebase.firestore.collection("pucopoints")
+            .whereEqualTo("manager", Firebase.auth.currentUser!!.uid)
+
+        val options: FirestoreRecyclerOptions<Pucopoint> = FirestoreRecyclerOptions.Builder<Pucopoint>()
+            .setQuery(query, Pucopoint::class.java)
+            .build()
+
+        Log.d(TAG, "setListAdapter: before try")
+        try {
+            userAdapter = MapAdapter(
+                context,
+                options = options,
+                loadingComplete = {
+                }
+            ) { model, position ->
+                val lat = model.lat.toString().toDouble()
+                val long = model.long.toString().toDouble()
+                val location = LatLng(lat, long)
+//                val direction =
+//                    mMap!!.moveCamera(CameraUpdateFactory.newLatLng(location))
+                Log.d(TAG, "setListAdapter: ${model.email}")
+            }
+
+        } catch (e: IndexOutOfBoundsException) {
+            Log.e("TAG", "meet a IOOBE in RecyclerView")
+        }
+        Log.d(TAG, "setListAdapter:sds ${userAdapter}")
+        val linearLayoutManager = StaggeredGridLayoutManager(
+            1,  //The number of Columns in the grid
+            LinearLayoutManager.HORIZONTAL
+        )
+        binding.recycler.layoutManager = linearLayoutManager
+        binding.recycler.itemAnimator = null
+        binding.recycler.adapter = userAdapter!!
+        
+    }
+
     @Synchronized
-    @OptIn(DelicateCoroutinesApi::class)
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
         mMap!!.mapType = GoogleMap.MAP_TYPE_NORMAL
 
+        binding.createCircles.setOnClickListener {
+            
+            countcircles += 1
+            Log.d(TAG, "onMapReady: $countcircles")
+            if(countcircles%2 == 0){
+                binding.createCircles.text = "remove circles"
+                createCircle(mMap!!)
+            }else{
+                mMap!!.setOnMapClickListener(null)
+                for (i in circles1) {
+                    binding.createCircles.text = "create circles"
+                    i.remove()
+                }
+                for (j in markerArray){
+                    j.remove()
+                }
+            }
 
+        }
         binding.remove.setOnClickListener {
             count += 1
             for (i in circles) {
                 i.isVisible = count%2 == 0
-//                Toast.makeText(applicationContext, "$circle   ${locationArrayList?.get(i)}", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
-    companion object {
-        private const val TAG = "MapsActivity"
+    private fun createCircle(mMap: GoogleMap) {
+        Log.d(TAG, "createCircle:fun $countcircles")
+        if(countcircles%2 == 0) {
+            mMap.setOnMapClickListener { p0 ->
+                marker = mMap.addMarker(
+                    MarkerOptions().position(p0)
+                )
+                markerArray.add(marker!!)
+
+                circle1 = mMap.addCircle(
+                    CircleOptions()
+                        .center(p0)
+                        .radius(3000.0)
+                        .strokeColor(0x00000000)
+                        .fillColor(0x22140077)
+                )
+                circles1.add(circle1!!)
+            }
+        }
     }
 
-
-    suspend fun location() {
+    private suspend fun location() {
         val query = Firebase.firestore.collection("pucopoints").get()
             .addOnSuccessListener { result ->
                 for (document in result) {
@@ -85,9 +157,19 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                         document.data["lat"] as Double,
                         document.data["long"] as Double
                     )
+                    var str = document.data["name"] as String
+                    str += "\n"
+                    str += document.data["email"] as String
+                    str += "\n"
+                    str += document.data["phone"] as String
+                    str += "\n"
+                    str += document.data["streetAddress"] as String
+                    str += "\n"
+                    str += document.data["shopName"] as String
                     mMap!!.addMarker(
-                        MarkerOptions().position(location).title(document.data["name"] as String?)
+                        MarkerOptions().position(location).title(str)
                     )
+
                     circle = mMap!!.addCircle(
                         CircleOptions()
                             .center(location)
@@ -96,8 +178,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                             .fillColor(0x22140077)
                     )
                     circles.add(circle!!)
-//                    val vari = circle.toString().split('@')[1]
-//                    locationArrayList?.add(vari)
                     countLocation += 1
                     mMap!!.moveCamera(CameraUpdateFactory.newLatLng(location))
                 }
@@ -106,5 +186,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             .addOnFailureListener { exception ->
                 Log.d(PucopointList.TAG, "Error getting documents: ", exception)
             }
+    }
+    companion object {
+        private const val TAG = "MapsActivity"
     }
 }

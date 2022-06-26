@@ -47,7 +47,13 @@ class OnboardingShopkeeperInfo : Fragment() {
     var countryCode = ""
     var altcountryCode = ""
     private lateinit var binding: FragmentOnboardingShopkeeperInfoBinding
+//    private var binding = _binding!!
     private var navController: NavController?= null
+
+//    override fun onDestroyView() {
+//        super.onDestroyView()
+//        _binding = null
+//    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

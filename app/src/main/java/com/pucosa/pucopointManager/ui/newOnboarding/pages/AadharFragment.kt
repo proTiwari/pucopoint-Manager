@@ -27,8 +27,14 @@ class AadharFragment : Fragment() {
     private var aadharImageUrl: Uri? = null
     private var navController: NavController?= null
     private lateinit var binding: FragmentAadarBinding
+//    private var binding = _binding!!
     private val pucoPointDoc = Firebase.firestore.collection("pucopoints").document()
     private lateinit var viewModel: NewOnboardingViewModel
+
+//    override fun onDestroyView() {
+//        super.onDestroyView()
+//        _binding = null
+//    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

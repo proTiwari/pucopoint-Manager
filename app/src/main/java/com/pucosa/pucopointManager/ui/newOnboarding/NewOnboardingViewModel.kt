@@ -43,10 +43,8 @@ class NewOnboardingViewModel(application: Application) : AndroidViewModel(applic
     var countryCode2 = MutableLiveData<String>("+91")
     @SuppressLint("StaticFieldLeak")
     private val context = getApplication<Application>().applicationContext
+
     var signaturePad = MutableLiveData<SignaturePad>()
-
-
-
 
     fun aadharDetailsChanged(url: Uri, aadhar: String) {
         val currData = data.value
@@ -151,24 +149,20 @@ class NewOnboardingViewModel(application: Application) : AndroidViewModel(applic
 
     private suspend fun uploadSignature(
         signaturePad: Bitmap,
-        context: Context,
+        context: Context?,
         view: View,
         id: String?
     ): Uri? {
         val sign = compress(signaturePad)
         val model = data.value!!
         Looper.prepare()
-        val progressDialog = ProgressDialog(context)
-        progressDialog.setMessage("Uploading File ...")
-        progressDialog.setCancelable(false)
+
 
         val fileName = "SIGNATURE_${model.pid}.WEBP"
         val storageReference = FirebaseStorage.getInstance().getReference("/pucopoints/${id}/$fileName")
         val uploadTask = storageReference.putBytes(sign).
         addOnSuccessListener {
-            progressDialog.dismiss()
         }.addOnFailureListener{
-           progressDialog.dismiss()
 
         }.addOnProgressListener {
         }
@@ -198,7 +192,7 @@ class NewOnboardingViewModel(application: Application) : AndroidViewModel(applic
         shopUri: Uri?,
         shopkeeperUri: Uri?,
         aadharImageUri: Uri?,
-        context: Context,
+        context: Context?,
         signaturePad: Uri?,
         view: View,
         id: String
@@ -314,10 +308,10 @@ class NewOnboardingViewModel(application: Application) : AndroidViewModel(applic
     private suspend fun uploadImage(
         uri: Uri,
         type: ImageType,
-        context: Context,
+        context: Context?,
         view: View,
         id: String?
-    ): Uri{
+    ): Uri? {
         val model = data.value!!
         Looper.prepare()
 
@@ -331,24 +325,25 @@ class NewOnboardingViewModel(application: Application) : AndroidViewModel(applic
         }
         val storageReference = FirebaseStorage.getInstance().getReference("/pucopoints/${id}/$fileName")
 
-        val compressedUri = ImageUtils.compressImage(uri, fileName , context)
+        val compressedUri = context?.let { ImageUtils.compressImage(uri, fileName , it) }
 
-        val uploadTask = storageReference.putFile(compressedUri).
-        addOnSuccessListener {
+        val uploadTask = compressedUri?.let {
+            storageReference.putFile(it).addOnSuccessListener {
 
-        }.addOnFailureListener{
+            }.addOnFailureListener{
 
-        }.addOnProgressListener {
+            }.addOnProgressListener {
 
+            }
         }
-        return uploadTask.continueWithTask { task ->
+        return uploadTask?.continueWithTask { task ->
             if (!task.isSuccessful) {
                 task.exception?.let {
                     throw it
                 }
             }
             storageReference.downloadUrl
-        }.await()
+        }?.await()
     }
 
 

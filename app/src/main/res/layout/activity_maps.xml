@@ -38,7 +38,7 @@
 				android:id="@+id/recycler"
 				android:layout_height="177dp"
 				tools:itemCount="10"
-				tools:listitem="@layout/singlerow"
+				tools:listitem="@layout/mapsinglerow"
 				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintEnd_toEndOf="parent"
 				app:layout_constraintHorizontal_bias="0.0"

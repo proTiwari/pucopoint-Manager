@@ -50,7 +50,6 @@ class OnboardingAgreement: Fragment() {
         binding.progressbar.visibility = View.INVISIBLE
         val signaturePad = binding.signaturePad
 
-
         Observer<Boolean> { binding.accept2 }
 
         signaturePad.setOnSignedListener(object : SignaturePad.OnSignedListener {

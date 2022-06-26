@@ -38,14 +38,13 @@ class ShopImageFragment : Fragment() {
         binding = FragmentShopImageBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(requireActivity())[NewOnboardingViewModel::class.java]
         binding.data = viewModel
-        binding.lifecycleOwner = this
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initImageCaptureManager()
-        viewModel = ViewModelProvider(requireActivity())[NewOnboardingViewModel::class.java]
+
 
         val Uidata = Observer<Pucopoint> {
             binding.shopName.setText(viewModel.data.value?.shopName)

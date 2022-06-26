@@ -76,12 +76,14 @@ class MapAdapter(
 
     // Holds the views for adding it to image and text
     class ViewHolder(ItemView: View) : RecyclerView.ViewHolder(ItemView) {
+
         //  val imageView: ImageView = itemView.findViewById(R.id.image)
         val name = itemView.findViewById<TextView>(R.id.name)
         val locality = itemView.findViewById<TextView>(R.id.locality)
         val phone = itemView.findViewById<TextView>(R.id.phone)
         val email = itemView.findViewById<TextView>(R.id.email)
         val image = itemView.findViewById<ImageView>(R.id.image)
+
     }
 
 

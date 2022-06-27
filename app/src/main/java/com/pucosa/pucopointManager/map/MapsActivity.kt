@@ -4,6 +4,8 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
@@ -52,10 +54,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
 
         Log.d(TAG, "onCreate: mapactivity")
-        GlobalScope.launch{
+        lifecycleScope.launch{
             location()
         }
         setListAdapter()
+
+        binding.toggleListVisibilityBtn.setOnClickListener {
+            val visibility = binding.recycler.isVisible
+            binding.recycler.isVisible = !visibility
+        }
     }
 
     private fun setListAdapter() {
@@ -64,12 +71,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         val options: FirestoreRecyclerOptions<Pucopoint> = FirestoreRecyclerOptions.Builder<Pucopoint>()
             .setQuery(query, Pucopoint::class.java)
+            .setLifecycleOwner(this)
             .build()
 
-        Log.d(TAG, "setListAdapter: before try")
-        try {
             userAdapter = MapAdapter(
-                context,
+                this,
                 options = options,
                 loadingComplete = {
                 }
@@ -77,22 +83,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 val lat = model.lat.toString().toDouble()
                 val long = model.long.toString().toDouble()
                 val location = LatLng(lat, long)
-//                val direction =
-//                    mMap!!.moveCamera(CameraUpdateFactory.newLatLng(location))
+                mMap!!.moveCamera(CameraUpdateFactory.newLatLng(location))
                 Log.d(TAG, "setListAdapter: ${model.email}")
             }
 
-        } catch (e: IndexOutOfBoundsException) {
-            Log.e("TAG", "meet a IOOBE in RecyclerView")
-        }
-        Log.d(TAG, "setListAdapter:sds ${userAdapter}")
-        val linearLayoutManager = StaggeredGridLayoutManager(
-            1,  //The number of Columns in the grid
-            LinearLayoutManager.HORIZONTAL
-        )
+        val linearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         binding.recycler.layoutManager = linearLayoutManager
-        binding.recycler.itemAnimator = null
-        binding.recycler.adapter = userAdapter!!
+        binding.recycler.adapter = userAdapter
         
     }
 
@@ -150,22 +147,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private suspend fun location() {
-        val query = Firebase.firestore.collection("pucopoints").get()
+       Firebase.firestore.collection("pucopoints").get()
             .addOnSuccessListener { result ->
                 for (document in result) {
                     val location = LatLng(
                         document.data["lat"] as Double,
                         document.data["long"] as Double
                     )
-                    var str = document.data["name"] as String
-                    str += "\n"
-                    str += document.data["email"] as String
-                    str += "\n"
-                    str += document.data["phone"] as String
-                    str += "\n"
-                    str += document.data["streetAddress"] as String
-                    str += "\n"
-                    str += document.data["shopName"] as String
+
+                    val str = document.data["shopName"] as String
                     mMap!!.addMarker(
                         MarkerOptions().position(location).title(str)
                     )

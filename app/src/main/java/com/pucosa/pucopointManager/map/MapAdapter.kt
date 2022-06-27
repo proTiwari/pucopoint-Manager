@@ -17,13 +17,11 @@ import com.pucosa.pucopointManager.R
 import com.pucosa.pucopointManager.models.Pucopoint
 
 class MapAdapter(
-    context: Context?,
+    private val context: Context,
     options: FirestoreRecyclerOptions<Pucopoint>,
     val loadingComplete: (itemCount: Int) -> Unit,
     val onItemClicked: (pucopoint: Pucopoint, Int) -> Unit
 ) : FirestoreRecyclerAdapter<Pucopoint, MapAdapter.ViewHolder>(options) {
-
-    private var context: Context? = context
 
     private var searchText: String = ""
     
@@ -103,11 +101,10 @@ class MapAdapter(
         model: Pucopoint
     ) {
         holder.name.text = model.name
-        holder.locality.text = model.streetAddress
+        holder.locality.text = model.getFullAddressString()
         holder.phone.text = model.phone
         holder.email.text = model.email
-        context?.let { Glide.with(it).load(model.shopkeeperImageUrl).into(holder.image) }
-        println(model.name)
+        context.let { Glide.with(it).load(model.shopImageUrl).into(holder.image) }
         holder.itemView.setOnClickListener{
             onItemClicked(model, position)
         }

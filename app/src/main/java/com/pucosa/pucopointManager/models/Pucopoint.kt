@@ -34,4 +34,8 @@ data class Pucopoint(
     var phoneNum: String = "",
     var altNum: String = "",
     var manager: String = ""
-): Parcelable
+): Parcelable {
+    fun getFullAddressString(): String {
+        return "$streetAddress, $city, $state, $country, $pincode"
+    }
+}

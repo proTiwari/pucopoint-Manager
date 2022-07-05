@@ -9,27 +9,26 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.room.Room
 import com.pucosa.pucopointManager.R
 import com.pucosa.pucopointManager.databinding.FragmentShopImageBinding
 import com.pucosa.pucopointManager.models.Pucopoint
+import com.pucosa.pucopointManager.roomDatabase.AppDatabase
+import com.pucosa.pucopointManager.roomDatabase.Shop
 import com.pucosa.pucopointManager.ui.newOnboarding.NewOnboardingViewModel
 import com.pucosa.pucopointManager.utils.ImageCaptureManager
+import kotlinx.coroutines.launch
 
 class ShopImageFragment : Fragment() {
     private lateinit var binding: FragmentShopImageBinding
-//    private var binding = _binding!!
     lateinit var viewModel: NewOnboardingViewModel
     private lateinit var navController: NavController
     private lateinit var imageCaptureManager: ImageCaptureManager
     private var shopImageUri: Uri = Uri.EMPTY
 
-
-//    override fun onDestroyView() {
-//        super.onDestroyView()
-//        _binding = null
-//    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,6 +55,11 @@ class ShopImageFragment : Fragment() {
             if(shopName != "" && shopImageUri != Uri.EMPTY) {
                 viewModel.shopImageDetailChanged(shopName, shopImageUri)
                 navController = Navigation.findNavController(view)
+
+                catchData(shopName, shopImageUri)
+
+                binding.selectShopImage.setImageURI(null)
+
                 navController.navigate(R.id.action_shopImageFragment_to_aadarFragment)
             }else{
                 Toast.makeText(requireContext(), "shop name or image is not uploaded", Toast.LENGTH_LONG).show()
@@ -74,6 +78,15 @@ class ShopImageFragment : Fragment() {
             )
         }
     }
+
+    private fun catchData(shopName: String, shopImageUri: Uri) {
+        val db = AppDatabase.getDatabase(context)
+
+        val shopkeeperDatabaseMethods = db.shopkeeperDatabaseMethods()
+
+        viewLifecycleOwner.lifecycleScope.launch{
+            shopkeeperDatabaseMethods.insertShop(Shop(0, shopName, shopImageUri.toString()))
+        }    }
 
     private fun initImageCaptureManager() {
         imageCaptureManager = ImageCaptureManager(this) { uri, _, uniqueRequestCode ->

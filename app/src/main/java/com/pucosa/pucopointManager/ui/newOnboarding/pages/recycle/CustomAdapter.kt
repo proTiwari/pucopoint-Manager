@@ -9,15 +9,12 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.Recycler
 import com.bumptech.glide.Glide
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.pucosa.pucopointManager.R
 import com.pucosa.pucopointManager.models.Pucopoint
-import kotlinx.coroutines.processNextEventInCurrentThread
-import org.w3c.dom.Text
 
 class CustomAdapter(
     context: Context?,
@@ -55,7 +52,26 @@ class CustomAdapter(
             searchItems = mutableListOf()
             for (position in 0 until super.getItemCount()) {
                 val item = super.getItem(position)
-                if (item.streetAddress.contains(searchText)) {
+
+                val elementAddress = item.streetAddress.lowercase()
+                val elementPhone = item.phone.lowercase()
+                val elementEmail = item.email.lowercase()
+                val elementCity = item.city.lowercase()
+                val elementName = item.name.lowercase()
+
+                if (elementCity.contains(searchText)) {
+                    searchItems.add(item)
+                }
+                if (elementEmail.contains(searchText)) {
+                    searchItems.add(item)
+                }
+                if (elementPhone.contains(searchText)) {
+                    searchItems.add(item)
+                }
+                if (elementAddress.contains(searchText)) {
+                    searchItems.add(item)
+                }
+                if (elementName.contains(searchText)){
                     searchItems.add(item)
                 }
             }
@@ -101,7 +117,7 @@ class CustomAdapter(
 
     @SuppressLint("NotifyDataSetChanged")
     fun search(text: String) {
-        searchText = text
+        searchText = text.lowercase()
         notifyDataSetChanged()
     }
 

@@ -90,16 +90,5 @@ class MainActivity : AppCompatActivity() {
 
     fun mapActivity(item: MenuItem) {
         navController?.navigate(R.id.action_pucoPointList_to_mapsActivity)
-//        val direction = PucopointListDirections.actionPucoPointListToMapsActivity(map!!)
-//        navController?.navigate(direction)
     }
-
-
-//    fun plus(view: View) {
-//        navController?.navigate(R.id.action_paymentList_to_onboarding_shopkeeper_info)
-//    }
-//
-//    fun pluspucopointlist(view: View) {
-//        navController?.navigate(R.id.action_pucoPointList_to_onboarding_shopkeeper_info)
-//    }
 }

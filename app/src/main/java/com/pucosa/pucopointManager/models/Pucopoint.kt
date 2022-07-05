@@ -13,7 +13,7 @@ data class Pucopoint(
     var name: String = "",
     var email: String = "",
     var phone: String = "",
-    var altPhone: String? = null,
+    var altPhone: String = "",
     var aadhar: String = "",
     var aadharImageUrl: String = "",
     var shopkeeperImageUrl: String = "",

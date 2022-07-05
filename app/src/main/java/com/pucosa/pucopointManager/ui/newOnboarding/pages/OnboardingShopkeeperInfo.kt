@@ -17,16 +17,16 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
+import androidx.room.Room
 import com.hbb20.countrypicker.dialog.launchCountryPickerDialog
 import com.pucosa.pucopointManager.R
 import com.pucosa.pucopointManager.databinding.FragmentOnboardingShopkeeperInfoBinding
-import com.pucosa.pucopointManager.models.Pucopoint
 import com.pucosa.pucopointManager.ui.newOnboarding.NewOnboardingViewModel
+import com.pucosa.pucopointManager.roomDatabase.AppDatabase
+import com.pucosa.pucopointManager.roomDatabase.ShopkeepersInfo
 import com.pucosa.pucopointManager.utils.ImageCaptureManager
+import kotlinx.coroutines.launch
 import java.util.regex.Pattern
-import kotlin.math.log10
 
 
 class OnboardingShopkeeperInfo : Fragment() {
@@ -211,6 +211,17 @@ class OnboardingShopkeeperInfo : Fragment() {
 
             if (huckup){
                 if(AltPhone != "" && Phone != ""){
+
+
+                 catchData(
+                     Name,
+                     Email,
+                     Phone,
+                     AltPhone,
+                     shopkeeperUri.toString(),
+                  )
+
+
                     viewModel.shopkeeperDetailsChanged(
                         Name,
                         Email,
@@ -223,6 +234,7 @@ class OnboardingShopkeeperInfo : Fragment() {
                         altCountryCode,
                         altNum
                     )
+
                     val direction = OnboardingShopkeeperInfoDirections.actionOnboardingShopkeeperInfoToOnboardingShopInfo()
                     navController!!.navigate(direction)
                     closeKeyboard()
@@ -240,6 +252,22 @@ class OnboardingShopkeeperInfo : Fragment() {
             if(shopkeeperUri.toString() ==""){
                 Toast.makeText(requireContext(),"Image is not selected",Toast.LENGTH_LONG).show()
             }
+        }
+    }
+
+    private fun catchData(
+        Name: String,
+        Email: String,
+        Phone: String,
+        AltPhone: String,
+        shopkeeperImg: String,
+    ) {
+        val db = AppDatabase.getDatabase(context)
+
+        val shopkeeperDatabaseMethods = db.shopkeeperDatabaseMethods()
+
+        viewLifecycleOwner.lifecycleScope.launch{
+            shopkeeperDatabaseMethods.insertShopkeeperInfo(ShopkeepersInfo(0, Name, Email, Phone, AltPhone, shopkeeperImg))
         }
     }
 

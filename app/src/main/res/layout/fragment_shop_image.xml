@@ -48,7 +48,6 @@
     <androidx.constraintlayout.utils.widget.ImageFilterView
         android:id="@+id/select_shop_image"
         android:layout_width="405dp"
-            android:src="@{data.data.shopImageUrl}"
         android:layout_height="294dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"

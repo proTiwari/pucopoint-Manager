@@ -2,11 +2,11 @@ package com.pucosa.pucopointManager.ui.newOnboarding.pages
 
 import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -17,9 +17,12 @@ import com.google.firebase.ktx.Firebase
 import com.pucosa.pucopointManager.R
 import com.pucosa.pucopointManager.databinding.FragmentAadarBinding
 import com.pucosa.pucopointManager.models.Pucopoint
+import com.pucosa.pucopointManager.roomDatabase.Aadhaar
+import com.pucosa.pucopointManager.roomDatabase.AppDatabase
 import com.pucosa.pucopointManager.ui.newOnboarding.NewOnboardingViewModel
 import com.pucosa.pucopointManager.utils.ImageCaptureManager
 import kotlinx.coroutines.launch
+import java.io.File
 
 class AadharFragment : Fragment() {
     private lateinit var imageCaptureManager: ImageCaptureManager
@@ -53,18 +56,15 @@ class AadharFragment : Fragment() {
         initImageCaptureManager()
         viewModel = ViewModelProvider(requireActivity())[NewOnboardingViewModel::class.java]
 
+        val outputDir: File = context!!.cacheDir // context being the Activity pointer
+        val outputFile: File = File.createTempFile("tempFile", ".html", outputDir)
+
 
         val Uidata = Observer<Pucopoint> {
-            // Update the UI, in this case, a TextView.
             binding.aadharNumber.setText(viewModel.data.value?.aadhar)
         }
 
         viewModel.data.observe(requireActivity(),Uidata)
-
-//        viewModel.data.observe(viewLifecycleOwner) {
-//            binding.aadharNumber.setText(it.aadhar)
-//            viewModel.aadharDetailsChanged(aadharUri, binding.aadharNumber.toString())
-//        }
 
         binding.selectAadhar.setOnClickListener{
             imageCaptureManager.startImageChooser(
@@ -72,13 +72,15 @@ class AadharFragment : Fragment() {
                 cropAspect = intArrayOf(16, 9)
             )
         }
+
         binding.proceedButton.setOnClickListener{
             val aadharNumber = binding.aadharNumber.text.toString()
             viewLifecycleOwner.lifecycleScope.launch {
                 if(aadharUri != Uri.EMPTY && isValidAadharNumber(aadharNumber)) {
-            //        aadharImageUrl = uploadImage(aadharUri)
-                viewModel.aadharDetailsChanged(aadharUri, aadharNumber)
+                    viewModel.aadharDetailsChanged(aadharUri, aadharNumber)
+                    catchData(aadharUri, aadharNumber)
                     navController = Navigation.findNavController(view)
+                    binding.selectAadhar.setImageURI(null)
                     navController!!.navigate(R.id.action_aadarFragment_to_onboarding_agreement)
                 }
                 else{
@@ -90,42 +92,23 @@ class AadharFragment : Fragment() {
             val navController: NavController = Navigation.findNavController(view)
             navController.navigate(R.id.action_aadarFragment_to_shopImageFragment)
         }
-
-
     }
-//    private suspend fun uploadImage(uri: Uri): Uri? {
-//        val progressDialog = ProgressDialog(requireContext())
-//        progressDialog.setMessage("Uploading File ...")
-//        progressDialog.setCancelable(false)
-//        progressDialog.show()
-//        val filePath = uri.lastPathSegment
-//        val fileExtension = filePath?.let { filePath.substring(it.lastIndexOf('.') + 1) }
-//        val fileName = "AADHAR_${pucoPointDoc.id}.$fileExtension"
-//        val storageReference = FirebaseStorage.getInstance().getReference("/pucopoints/${pucoPointDoc.id}/$fileName")
-//        val compressedUri = ImageUtils.compressImage(uri, fileName, requireContext())
-//        val uploadTask = storageReference.putFile(compressedUri).
-//        addOnSuccessListener {
-//            Toast.makeText(requireContext(),"Successfuly uploaded",Toast.LENGTH_LONG).show()
-//            if(progressDialog.isShowing) progressDialog.dismiss()
-//        }.addOnFailureListener{
-//            if(progressDialog.isShowing) progressDialog.dismiss()
-//            Toast.makeText(requireContext(),"Failed",Toast.LENGTH_SHORT).show()
-//        }.addOnProgressListener {
-//                taskSnapshot ->
-//            val progress = (100.0 * taskSnapshot.bytesTransferred/taskSnapshot.totalByteCount)
-//            progressDialog.progress = progress.toInt()
-//        }
-//        return uploadTask.continueWithTask { task ->
-//            if (!task.isSuccessful) {
-//                task.exception?.let {
-//                    throw it
-//                }}
-//            storageReference.downloadUrl
-//        }.await()
-//    }
+
+        private fun catchData(aadharUri: Uri, aadharNumber1: String) {
+
+            val db = AppDatabase.getDatabase(context)
+
+            val shopkeeperDatabaseMethods = db.shopkeeperDatabaseMethods()
+
+            viewLifecycleOwner.lifecycleScope.launch{
+                shopkeeperDatabaseMethods.insertAadhaar(Aadhaar(0,aadharNumber1, aadharUri.toString()))
+            }
+
+        }
+
 
     private fun isValidAadharNumber(target: String): Boolean {
-        return target == null || target.length == 12
+        return target.length == 12
     }
 
     private fun initImageCaptureManager(){

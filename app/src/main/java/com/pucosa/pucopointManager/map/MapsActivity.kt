@@ -92,7 +92,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         binding.recycler.adapter = userAdapter
         
     }
-
     @Synchronized
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
@@ -124,7 +123,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             }
         }
     }
-
     private fun createCircle(mMap: GoogleMap) {
         Log.d(TAG, "createCircle:fun $countcircles")
         if(countcircles%2 == 0) {
@@ -146,7 +144,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
-    private suspend fun location() {
+    private fun location() {
        Firebase.firestore.collection("pucopoints").get()
             .addOnSuccessListener { result ->
                 for (document in result) {
@@ -154,12 +152,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                         document.data["lat"] as Double,
                         document.data["long"] as Double
                     )
-
                     val str = document.data["shopName"] as String
                     mMap!!.addMarker(
                         MarkerOptions().position(location).title(str)
                     )
-
                     circle = mMap!!.addCircle(
                         CircleOptions()
                             .center(location)
@@ -171,7 +167,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                     countLocation += 1
                     mMap!!.moveCamera(CameraUpdateFactory.newLatLng(location))
                 }
-
             }
             .addOnFailureListener { exception ->
                 Log.d(PucopointList.TAG, "Error getting documents: ", exception)

@@ -13,21 +13,23 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.firebase.geofire.GeoLocation
 import com.google.android.gms.location.*
 import com.pucosa.pucopointManager.R
 import com.pucosa.pucopointManager.databinding.FragmentOnboardingShopInfoBinding
+import com.pucosa.pucopointManager.roomDatabase.AppDatabase
+import com.pucosa.pucopointManager.roomDatabase.ShopLocationInfo
 import com.pucosa.pucopointManager.ui.newOnboarding.NewOnboardingViewModel
 import com.pucosa.pucopointManager.utils.LocationUtils
+import kotlinx.coroutines.launch
 
 
 class OnboardingShopInfo : Fragment() {
@@ -43,10 +45,6 @@ class OnboardingShopInfo : Fragment() {
     private lateinit var viewModel: NewOnboardingViewModel
     var geohash : String? = ""
 
-//    override fun onDestroyView() {
-//        super.onDestroyView()
-//        binding = null
-//    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -90,17 +88,32 @@ class OnboardingShopInfo : Fragment() {
             if (country != "" && state != "" && city != "" && pincode != "" && latitude != 0.0 && longitude != 0.0 && streetAddress != "") {
                 if (latitude != null) {
                     if (longitude != null) {
+
+                       catchData(country, state, city, streetAddress, pincode, latitude.toString(), longitude.toString())
+
                         viewModel.shopDetailsChanged(
                             country, state, city, streetAddress, pincode, latitude, longitude
                         )
+
+                        navController = Navigation.findNavController(view)
+                        navController.navigate(R.id.action_onboarding_shop_info_to_shopImageFragment)
                     }
                 }
-                navController = Navigation.findNavController(view)
-                navController.navigate(R.id.action_onboarding_shop_info_to_shopImageFragment)
+
             } else {
                 Toast.makeText(requireContext(), "Enter complete location details", Toast.LENGTH_LONG)
                     .show()
             }
+        }
+    }
+
+    private fun catchData(country: String, state: String, city: String, streetAddress: String, pincode: String, latitude: String, longitude: String){
+        val db = AppDatabase.getDatabase(context)
+
+        val shopkeeperDatabaseMethods = db.shopkeeperDatabaseMethods()
+
+        viewLifecycleOwner.lifecycleScope.launch{
+            shopkeeperDatabaseMethods.insertShopLocationInfo(ShopLocationInfo(0, latitude, longitude, city, state, country, pincode, streetAddress))
         }
     }
 

@@ -12,7 +12,6 @@ import androidx.core.text.HtmlCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import com.github.barteksc.pdfviewer.PDFView
 import com.pucosa.pucopointManager.databinding.FragmentWrittenAgreementBinding
 import java.io.BufferedInputStream
 import java.io.IOException
@@ -26,7 +25,6 @@ class WrittenAgreement : Fragment() {
 
     private lateinit var binding: FragmentWrittenAgreementBinding
     private lateinit var navController: NavController
-    lateinit var pdfView: PDFView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -208,20 +208,20 @@ tools:context=".ui.newOnboarding.pages.OnboardingShopkeeperInfo">
                 android:text="upload shopkeeper image" />
 
             <ImageView
-                android:id="@+id/userimage"
-                android:layout_width="380dp"
-                android:layout_height="381dp"
-                android:layout_below="@+id/alternatePhone"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginStart="17dp"
-                android:layout_marginLeft="200dp"
-                android:layout_marginTop="310dp"
-                android:layout_marginEnd="14dp"
-                android:layout_marginBottom="56dp"
-                android:contentDescription="click to upload"
-                android:contextClickable="true" />
+                    android:id="@+id/userimage"
+                    android:layout_width="380dp"
+                    android:layout_height="381dp"
+                    android:layout_below="@+id/alternatePhone"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginStart="17dp"
+                    android:layout_marginLeft="200dp"
+                    android:layout_marginTop="310dp"
+                    android:layout_marginEnd="14dp"
+                    android:layout_marginBottom="56dp"
+                    android:contentDescription="click to upload"
+                    android:contextClickable="true" />
 
             <Button
                 android:id="@+id/back"

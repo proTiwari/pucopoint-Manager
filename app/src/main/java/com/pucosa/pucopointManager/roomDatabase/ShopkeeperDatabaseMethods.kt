@@ -47,20 +47,28 @@ interface ShopkeeperDatabaseMethods {
     @Insert
     suspend fun insertShopkeeperInfo(shopkeepersInfo: ShopkeepersInfo)
 
-
+    @Query("SELECT * FROM shopLocationInfo")
+    suspend fun excessShopLocationInfo():ShopLocationInfo
 
     @Insert
     suspend fun insertShopLocationInfo(shopLocationInfo: ShopLocationInfo)
 
 
+
+    @Query("SELECT * FROM aadhaar")
+    suspend fun excessAadhar():Aadhaar
     @Insert
     suspend fun insertAadhaar(aadhaar: Aadhaar)
 
 
+    @Query("SELECT * FROM shop")
+    suspend fun excessShop():Shop
     @Insert
     suspend fun insertShop(shop: Shop)
 
 
+    @Query("SELECT * FROM signature")
+    suspend fun excessSignature():Signature
     @Insert
     suspend fun insertSignature(signature: Signature)
 

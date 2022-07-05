@@ -218,11 +218,20 @@ class OnboardingAgreement: Fragment() {
         catchData(id, shopUri.toString(), shopkeeperUri.toString(), aadharImageUri.toString(), signaturePad.toString())
 
         val db = AppDatabase.getDatabase(context)
+
         val shopkeeperdata = db.shopkeeperDatabaseMethods().excessShopkeeperInfo()
+        val shopLocationinfo = db.shopkeeperDatabaseMethods().excessShopLocationInfo()
+        val aadharInfo = db.shopkeeperDatabaseMethods().excessAadhar()
+        val shopInfo = db.shopkeeperDatabaseMethods().excessShop()
+        val signature = db.shopkeeperDatabaseMethods().excessSignature()
+
         Log.d(TAG, "firebaseUriImageUpload: $shopkeeperdata")
+        Log.d(TAG, "firebaseUriImageUpload: $shopLocationinfo")
+        Log.d(TAG, "firebaseUriImageUpload: $aadharInfo")
+        Log.d(TAG, "firebaseUriImageUpload: $shopInfo")
+        Log.d(TAG, "firebaseUriImageUpload: $signature")
         
-        
-        
+
         currData?.pid = id
         currData?.shopImageUrl = shopUri.toString()
         currData?.shopkeeperImageUrl = shopkeeperUri.toString()

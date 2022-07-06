@@ -2,6 +2,7 @@ package com.pucosa.pucopointManager.ui.newOnboarding.pages
 
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -77,8 +78,9 @@ class AadharFragment : Fragment() {
             val aadharNumber = binding.aadharNumber.text.toString()
             viewLifecycleOwner.lifecycleScope.launch {
                 if(aadharUri != Uri.EMPTY && isValidAadharNumber(aadharNumber)) {
-                    viewModel.aadharDetailsChanged(aadharUri, aadharNumber)
+//                    viewModel.aadharDetailsChanged(aadharUri, aadharNumber)
                     catchData(aadharUri, aadharNumber)
+                    Log.d("aadhaar", "onViewCreated: $aadharUri")
                     navController = Navigation.findNavController(view)
                     binding.selectAadhar.setImageURI(null)
                     navController!!.navigate(R.id.action_aadarFragment_to_onboarding_agreement)
@@ -96,7 +98,7 @@ class AadharFragment : Fragment() {
 
         private fun catchData(aadharUri: Uri, aadharNumber1: String) {
 
-            val db = AppDatabase.getDatabase(context)
+            val db = AppDatabase.getDatabase(context!!)
 
             val shopkeeperDatabaseMethods = db.shopkeeperDatabaseMethods()
 

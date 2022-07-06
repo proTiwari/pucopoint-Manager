@@ -17,7 +17,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import androidx.room.Room
 import com.hbb20.countrypicker.dialog.launchCountryPickerDialog
 import com.pucosa.pucopointManager.R
 import com.pucosa.pucopointManager.databinding.FragmentOnboardingShopkeeperInfoBinding
@@ -219,21 +218,26 @@ class OnboardingShopkeeperInfo : Fragment() {
                      Phone,
                      AltPhone,
                      shopkeeperUri.toString(),
+                     username,
+                     phoneCountryCode,
+                     phoneNum,
+                     altCountryCode,
+                     altNum
                   )
 
 
-                    viewModel.shopkeeperDetailsChanged(
-                        Name,
-                        Email,
-                        Phone,
-                        AltPhone,
-                        shopkeeperUri.toString(),
-                        username,
-                        phoneCountryCode,
-                        phoneNum,
-                        altCountryCode,
-                        altNum
-                    )
+//                    viewModel.shopkeeperDetailsChanged(
+//                        Name,
+//                        Email,
+//                        Phone,
+//                        AltPhone,
+//                        shopkeeperUri.toString(),
+//                        username,
+//                        phoneCountryCode,
+//                        phoneNum,
+//                        altCountryCode,
+//                        altNum
+//                    )
 
                     val direction = OnboardingShopkeeperInfoDirections.actionOnboardingShopkeeperInfoToOnboardingShopInfo()
                     navController!!.navigate(direction)
@@ -261,13 +265,18 @@ class OnboardingShopkeeperInfo : Fragment() {
         Phone: String,
         AltPhone: String,
         shopkeeperImg: String,
+        username: String,
+        phoneCountryCode: String,
+        phoneNum: String,
+        altCountryCode: String,
+        altNum: String,
     ) {
-        val db = AppDatabase.getDatabase(context)
+        val db = AppDatabase.getDatabase(context!!)
 
         val shopkeeperDatabaseMethods = db.shopkeeperDatabaseMethods()
 
         viewLifecycleOwner.lifecycleScope.launch{
-            shopkeeperDatabaseMethods.insertShopkeeperInfo(ShopkeepersInfo(0, Name, Email, Phone, AltPhone, shopkeeperImg))
+            shopkeeperDatabaseMethods.insertShopkeeperInfo(ShopkeepersInfo(0, Name, Email, Phone, AltPhone, shopkeeperImg, username, phoneCountryCode, phoneNum, altCountryCode, altNum))
         }
     }
 
@@ -276,8 +285,9 @@ class OnboardingShopkeeperInfo : Fragment() {
         imageCaptureManager = ImageCaptureManager(this) { uri, _, uniqueRequestCode ->
             if(uniqueRequestCode == SHOPKEEPER_IMAGE_REQUEST_CODE) {
                 shopkeeperUri = uri?: Uri.EMPTY
-                uri.let { binding.userimage.setImageURI(uri)
-                binding.uploadimage.text = view?.isGone.toString()
+                uri.let {
+                    binding.userimage.setImageURI(uri)
+
                 }
             }
         }

@@ -91,9 +91,9 @@ class OnboardingShopInfo : Fragment() {
 
                        catchData(country, state, city, streetAddress, pincode, latitude.toString(), longitude.toString())
 
-                        viewModel.shopDetailsChanged(
-                            country, state, city, streetAddress, pincode, latitude, longitude
-                        )
+//                        viewModel.shopDetailsChanged(
+//                            country, state, city, streetAddress, pincode, latitude, longitude
+//                        )
 
                         navController = Navigation.findNavController(view)
                         navController.navigate(R.id.action_onboarding_shop_info_to_shopImageFragment)
@@ -108,7 +108,7 @@ class OnboardingShopInfo : Fragment() {
     }
 
     private fun catchData(country: String, state: String, city: String, streetAddress: String, pincode: String, latitude: String, longitude: String){
-        val db = AppDatabase.getDatabase(context)
+        val db = AppDatabase.getDatabase(context!!)
 
         val shopkeeperDatabaseMethods = db.shopkeeperDatabaseMethods()
 

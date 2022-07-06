@@ -15,13 +15,11 @@ import android.widget.Toast
 import androidx.core.net.toUri
 import androidx.core.text.HtmlCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import androidx.room.Room
 import com.github.gcacace.signaturepad.views.SignaturePad
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
@@ -33,9 +31,9 @@ import com.pucosa.pucopointManager.databinding.FragmentOnboardingAgreementBindin
 import com.pucosa.pucopointManager.models.Pucopoint
 import com.pucosa.pucopointManager.roomDatabase.AppDatabase
 import com.pucosa.pucopointManager.roomDatabase.Signature
-import com.pucosa.pucopointManager.roomDatabase.ShopkeepersInfo
 import com.pucosa.pucopointManager.ui.newOnboarding.NewOnboardingViewModel
 import com.pucosa.pucopointManager.utils.ImageUtils
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -47,6 +45,7 @@ class OnboardingAgreement: Fragment() {
     private lateinit var binding : FragmentOnboardingAgreementBinding
     private lateinit var navController: NavController
     private var viewModel: NewOnboardingViewModel? = null
+
 
 
     override fun onCreateView(
@@ -82,9 +81,7 @@ class OnboardingAgreement: Fragment() {
             signaturePad.clear()
         }
 
-        val checkBox: CheckBox = binding.checkBox1 //get the view using findViewById
-
-        val invisibleView: View? = null //do the same
+        val checkBox: CheckBox = binding.checkBox1
 
         checkBox.setOnCheckedChangeListener { buttonView, isChecked ->
             binding.accept2.isEnabled = isChecked
@@ -94,12 +91,6 @@ class OnboardingAgreement: Fragment() {
 
         val formattedText = "I agree to the <a href='https://pucosa.com/pucopoint_terms_conditions.pdf'>Terms and Conditions</a>"
         viewer.text = HtmlCompat.fromHtml(formattedText, HtmlCompat.FROM_HTML_MODE_LEGACY)
-//        binding.writtenAgreement.setOnClickListener{
-//            val url = "https://pucosa.com/pucopoint_terms_conditions.pdf"
-//            val i = Intent(Intent.ACTION_VIEW)
-//            i.data = Uri.parse(url)
-//            startActivity(i)
-//        }
 
         viewModel = ViewModelProvider(requireActivity())[NewOnboardingViewModel::class.java]
         navController = Navigation.findNavController(view)
@@ -109,10 +100,9 @@ class OnboardingAgreement: Fragment() {
             binding.clear.isEnabled = false
             binding.checkBox1.isEnabled = false
             binding.writtenAgreement.isEnabled = false
+            signaturePad.isEnabled = false
             onboardingAgreementImageUpload(signaturePad, view)
-
-//            navController.navigate(R.id.action_global_pucoPointList)
-                  }
+         }
         binding.cancel.setOnClickListener {
             viewModel!!.data.value = Pucopoint()
             Log.d(TAG, "cancel button pressed")
@@ -122,12 +112,12 @@ class OnboardingAgreement: Fragment() {
             navController.navigate(R.id.action_onboarding_agreement_to_pucoPointList)
         }
     }
-    
-        @Synchronized
+
+    @Synchronized
         fun onboardingAgreementImageUpload(
-            signaturePad: SignaturePad,
-            view: View
-        ) {
+        signaturePad: SignaturePad,
+        view: View
+    ) {
             lifecycleScope.launch() {
                 val pucoPointRef = Firebase.firestore.collection(DbCollections.PUCOPOINTS).document()
                 val id = pucoPointRef.id
@@ -135,34 +125,27 @@ class OnboardingAgreement: Fragment() {
                 val shopImageUrl: Uri = model.shopImageUrl.toUri()
                 val shopkeeperImageUrl: Uri = model.shopkeeperImageUrl.toUri()
                 val aadharUri: Uri = model.aadharImageUrl.toUri()
-                val uploadShopJob = async(Dispatchers.IO){if(shopImageUrl != Uri.EMPTY)uploadImage(shopImageUrl, NewOnboardingViewModel.ImageType.SHOP, context, view, id) else null}
+                val uploadShopJob = async(Dispatchers.IO){if(shopImageUrl != Uri.EMPTY)uploadImage(shopImageUrl, NewOnboardingViewModel.ImageType.SHOP, id) else null}
                 val uploadShopkeeperJob = async(Dispatchers.IO){if(shopkeeperImageUrl != Uri.EMPTY)uploadImage(
                     shopkeeperImageUrl,
                     NewOnboardingViewModel.ImageType.SHOPKEEPER,
-                    context,
-                    view,
                     id
                 ) else null}
                 val uploadAadharImageJob = async(Dispatchers.IO){if(aadharUri != Uri.EMPTY)uploadImage(
                     aadharUri,
                     NewOnboardingViewModel.ImageType.AADHAR,
-                    context,
-                    view,
                     id
                 ) else null}
                 val uploadSignaturePad = async(Dispatchers.IO){if(!signaturePad.isEmpty)uploadSignature(
-                    signaturePad.signatureBitmap,
-                    context, view,id
+                    signaturePad.signatureBitmap,id
                 ) else null}
-                firebaseUriImageUpload(uploadShopJob.await(), uploadShopkeeperJob.await(), uploadAadharImageJob.await(), context, uploadSignaturePad.await(), view, id)
+                firebaseUriImageUpload(uploadShopJob.await(), uploadShopkeeperJob.await(), uploadAadharImageJob.await(), context!!, uploadSignaturePad.await(), id, view)
             }
 
         }
 
     private suspend fun uploadSignature(
         signaturePad: Bitmap,
-        context: Context?,
-        view: View,
         id: String?
     ): Uri? {
         val sign = compress(signaturePad)
@@ -206,10 +189,10 @@ class OnboardingAgreement: Fragment() {
         shopUri: Uri?,
         shopkeeperUri: Uri?,
         aadharImageUri: Uri?,
-        context: Context?,
+        context: Context,
         signaturePad: Uri?,
-        view: View,
-        id: String
+        id: String,
+        view: View
     ) {
         val pucoPointRef = Firebase.firestore.collection(DbCollections.PUCOPOINTS).document()
         val currData = viewModel?.data?.value
@@ -225,20 +208,71 @@ class OnboardingAgreement: Fragment() {
         val shopInfo = db.shopkeeperDatabaseMethods().excessShop()
         val signature = db.shopkeeperDatabaseMethods().excessSignature()
 
-        Log.d(TAG, "firebaseUriImageUpload: $shopkeeperdata")
-        Log.d(TAG, "firebaseUriImageUpload: $shopLocationinfo")
-        Log.d(TAG, "firebaseUriImageUpload: $aadharInfo")
-        Log.d(TAG, "firebaseUriImageUpload: $shopInfo")
-        Log.d(TAG, "firebaseUriImageUpload: $signature")
-        
+        Log.d("@@@@", "firebaseUriImageUpload: $shopkeeperdata")
+        Log.d("@@@@", "firebaseUriImageUpload: $shopLocationinfo")
+        Log.d("@@@@", "firebaseUriImageUpload: $aadharInfo")
+        Log.d("@@@@", "firebaseUriImageUpload: $shopInfo")
+        Log.d("@@@@", "firebaseUriImageUpload: $signature")
 
-        currData?.pid = id
-        currData?.shopImageUrl = shopUri.toString()
-        currData?.shopkeeperImageUrl = shopkeeperUri.toString()
-        currData?.aadharImageUrl = aadharImageUri.toString()
-        currData?.signaturePad = signaturePad.toString()
+        val name = shopkeeperdata.name
+        val email = shopkeeperdata.email
+        val altPhone = shopkeeperdata.altPhone
+        val phone = shopkeeperdata.phone
+        val shopkeeperImageUrl = shopkeeperdata.shopOwnerImage
+
+        val city = shopLocationinfo.city
+        val state = shopLocationinfo.state
+        val country = shopLocationinfo.country
+        val lat = shopLocationinfo.lat.toDouble()
+        val long = shopLocationinfo.lon.toDouble()
+        val pincode = shopLocationinfo.pincode
+        val streetAddress = shopLocationinfo.streetAddress
+
+        val aadhaarImageUrl = aadharInfo.aadhaarImage
+        val aadhaar = aadharInfo.aadharNumber
+
+        val shopImageUrl = shopInfo.shopImage
+        val shopName = shopInfo.shopName
+
+        val signatureAgreement = signature.signatureImage
+        val pid = signature.pid
+
+        val username = shopkeeperdata.username
+        val phoneCountryCode = shopkeeperdata.phoneCountryCode
+        val altCountryCode = shopkeeperdata.altCountryCode
+        val phoneNum = shopkeeperdata.phoneNum
+        val altNum = shopkeeperdata.altNum
+
+        currData?.name = name
+        currData?.email = email
+        currData?.altPhone = altPhone
+        currData?.phone = phone
+        currData?.shopkeeperImageUrl = shopkeeperImageUrl
+
+        currData?.city = city
+        currData?.state = state
+        currData?.country = country
+        currData?.lat = lat
+        currData?.long = long
+        currData?.pincode = pincode
+        currData?.streetAddress = streetAddress
+
+        currData?.aadharImageUrl = aadhaarImageUrl
+        currData?.aadhar = aadhaar
+
+        currData?.shopImageUrl = shopImageUrl
+        currData?.shopName = shopName
+
+        currData?.signaturePad = signatureAgreement
+        currData?.pid = pid
+
+        currData?.username = username
+        currData?.altCountryCode = altCountryCode
+        currData?.phoneCountryCode = phoneCountryCode
+        currData?.phoneNum = phoneNum
+        currData?.altNum = altNum
+
         currData?.manager = Firebase.auth.currentUser?.uid.toString()
-        
 
         if(currData?.pid != "" &&
             currData?.name != "" &&
@@ -268,17 +302,14 @@ class OnboardingAgreement: Fragment() {
 
             if (currData != null) {
 
-              
-
-
-
                 pucoPointRef.set(currData).addOnSuccessListener {
-                    Toast.makeText(context,"Successfully Saved", Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireContext(),"Successfully Saved", Toast.LENGTH_LONG).show()
                     viewModel?.data?.value = Pucopoint()
                     navController = Navigation.findNavController(view)
                     navController.navigate(R.id.action_global_pucoPointList)
                     val currData = viewModel?.data?.value
                     Log.d(OnboardingAgreement.TAG, "during onboarding data load")
+
                     currData?.pid = ""
                     currData?.name = ""
                     currData?.email = ""
@@ -304,6 +335,17 @@ class OnboardingAgreement: Fragment() {
                     currData?.phoneNum = ""
                     currData?.altNum = ""
                     currData?.manager = ""
+
+                    viewLifecycleOwner.lifecycleScope.launch{
+
+                        db.shopkeeperDatabaseMethods().deleteShopLocationrInfo()
+                        db.shopkeeperDatabaseMethods().deleteShopLocationrInfo()
+                        db.shopkeeperDatabaseMethods().deleteShop()
+                        db.shopkeeperDatabaseMethods().deleteAadhaar()
+                        db.shopkeeperDatabaseMethods().deleteSignature()
+
+                    }
+
                 }.addOnFailureListener{
                     Log.e(OnboardingAgreement.TAG, "onViewCreated: error while onboarding", it)
                     val currData = viewModel?.data?.value
@@ -332,15 +374,22 @@ class OnboardingAgreement: Fragment() {
                     currData?.phoneNum = ""
                     currData?.altNum = ""
                     currData?.manager = ""
-                    Toast.makeText(context,"Failed", Toast.LENGTH_LONG).show()
+                    viewLifecycleOwner.lifecycleScope.launch{
+
+                        db.shopkeeperDatabaseMethods().deleteShopLocationrInfo()
+                        db.shopkeeperDatabaseMethods().deleteShopLocationrInfo()
+                        db.shopkeeperDatabaseMethods().deleteShop()
+                        db.shopkeeperDatabaseMethods().deleteAadhaar()
+                        db.shopkeeperDatabaseMethods().deleteSignature()
+
+                    }
+                    Toast.makeText(requireContext(),"Failed", Toast.LENGTH_LONG).show()
                 }
             }
         } else{
             Log.d(NewOnboardingViewModel.TAG, "firebaseUriImageUpload: something went wrong")
-            Toast.makeText(context, "something went wrong!", Toast.LENGTH_LONG).show()
-            var viewDistroy: View? = view
-            navController = viewDistroy?.let { Navigation.findNavController(it) }!!
-
+            Toast.makeText(requireContext(), "something went wrong!", Toast.LENGTH_LONG).show()
+            navController = Navigation.findNavController(view)
             navController.navigate(R.id.action_global_pucoPointList)
         }
     }
@@ -353,7 +402,7 @@ class OnboardingAgreement: Fragment() {
         signaturePad: String
     ) {
 
-        val db = AppDatabase.getDatabase(context)
+        val db = AppDatabase.getDatabase(context!!)
 
         val shopkeeperDatabaseMethods = db.shopkeeperDatabaseMethods()
 
@@ -366,8 +415,6 @@ class OnboardingAgreement: Fragment() {
     private suspend fun uploadImage(
         uri: Uri,
         type: NewOnboardingViewModel.ImageType,
-        context: Context?,
-        view: View,
         id: String?
     ): Uri? {
         val model = viewModel?.data?.value!!

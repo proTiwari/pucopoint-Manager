@@ -2,11 +2,10 @@ package com.pucosa.pucopointManager.roomDatabase
 
 import android.content.Context
 import androidx.room.*
-import com.pucosa.pucopointManager.ui.newOnboarding.pages.AadharFragment
-import com.pucosa.pucopointManager.ui.newOnboarding.pages.OnboardingShopInfo
+import kotlinx.coroutines.CoroutineScope
 
 
-@Database(entities = [ShopkeepersInfo::class, ShopLocationInfo::class,  Aadhaar::class, Shop::class, Signature::class], version = 1)
+@Database(entities = [ShopkeepersInfo::class, ShopLocationInfo::class,  Aadhaar::class, Shop::class, Signature::class], version = 3)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun shopkeeperDatabaseMethods(): ShopkeeperDatabaseMethods
@@ -15,12 +14,14 @@ abstract class AppDatabase : RoomDatabase() {
         @Volatile
         private var INSTANCE: AppDatabase? = null
 
-        fun getDatabase(context: Context?): AppDatabase{
+        fun getDatabase(context: Context): AppDatabase{
             if(INSTANCE == null){
                 val db = Room.databaseBuilder(
-                    context!!,
+                    context,
                     AppDatabase::class.java, "database-name"
-                ).build()
+                )
+                    .fallbackToDestructiveMigration()
+                    .build()
                 INSTANCE = db
             }else{
                 return INSTANCE!!
@@ -34,43 +35,45 @@ abstract class AppDatabase : RoomDatabase() {
 @Dao
 interface ShopkeeperDatabaseMethods {
 
-//    @Query("SELECT * FROM shopkeepersInfo")
-//    suspend fun getAll(shopkeepersInfo: ShopkeepersInfo)
-//    @Query("SELECT * FROM shopkeepersInfo WHERE id IN ()")
-//    suspend fun loadAllByIds(shopkeepersInfo: ShopkeepersInfo)
-//    @Query("SELECT * FROM shopkeepersInfo WHERE shopkeepersInfo LIKE :shopkeepersInfo LIMIT 1")
-//    suspend fun findByName(shopkeepersInfo: ShopkeepersInfo)
-
     @Query("SELECT * FROM shopkeepersInfo")
     suspend fun excessShopkeeperInfo():ShopkeepersInfo
-
     @Insert
     suspend fun insertShopkeeperInfo(shopkeepersInfo: ShopkeepersInfo)
+    @Query("DELETE FROM shopkeepersInfo")
+    suspend fun deleteShopkeeperInfo()
+
+
 
     @Query("SELECT * FROM shopLocationInfo")
     suspend fun excessShopLocationInfo():ShopLocationInfo
-
     @Insert
     suspend fun insertShopLocationInfo(shopLocationInfo: ShopLocationInfo)
-
+    @Query("DELETE FROM shopLocationInfo")
+    suspend fun deleteShopLocationrInfo()
 
 
     @Query("SELECT * FROM aadhaar")
     suspend fun excessAadhar():Aadhaar
     @Insert
     suspend fun insertAadhaar(aadhaar: Aadhaar)
+    @Query("DELETE FROM aadhaar")
+    suspend fun deleteAadhaar()
 
 
     @Query("SELECT * FROM shop")
     suspend fun excessShop():Shop
     @Insert
     suspend fun insertShop(shop: Shop)
+    @Query("DELETE FROM shop")
+    suspend fun deleteShop()
 
 
     @Query("SELECT * FROM signature")
     suspend fun excessSignature():Signature
     @Insert
     suspend fun insertSignature(signature: Signature)
+    @Query("DELETE FROM signature")
+    suspend fun deleteSignature()
 
 
 }

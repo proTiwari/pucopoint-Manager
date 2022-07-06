@@ -12,7 +12,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import androidx.room.Room
 import com.pucosa.pucopointManager.R
 import com.pucosa.pucopointManager.databinding.FragmentShopImageBinding
 import com.pucosa.pucopointManager.models.Pucopoint
@@ -53,7 +52,7 @@ class ShopImageFragment : Fragment() {
         binding.proceedButton.setOnClickListener{
             val shopName = binding.shopName.text.toString()
             if(shopName != "" && shopImageUri != Uri.EMPTY) {
-                viewModel.shopImageDetailChanged(shopName, shopImageUri)
+//                viewModel.shopImageDetailChanged(shopName, shopImageUri)
                 navController = Navigation.findNavController(view)
 
                 catchData(shopName, shopImageUri)
@@ -80,7 +79,7 @@ class ShopImageFragment : Fragment() {
     }
 
     private fun catchData(shopName: String, shopImageUri: Uri) {
-        val db = AppDatabase.getDatabase(context)
+        val db = AppDatabase.getDatabase(context!!)
 
         val shopkeeperDatabaseMethods = db.shopkeeperDatabaseMethods()
 

@@ -11,9 +11,14 @@ data class ShopkeepersInfo(
     var email: String,
     var phone: String,
     var altPhone: String,
-    var shopOwnerImage: String
+    var shopOwnerImage: String,
+    var username: String,
+    var phoneCountryCode: String,
+    var phoneNum: String,
+    var altCountryCode: String,
+    var altNum: String,
 ){
-    constructor() : this(0, "", "", "", "", "")
+    constructor() : this(0, "", "", "", "", "","", "", "", "", "")
 }
 
 @Entity(tableName = "shopLocationInfo")

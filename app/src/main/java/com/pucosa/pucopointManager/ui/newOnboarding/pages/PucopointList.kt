@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.*
 import android.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,7 +19,9 @@ import com.pucosa.pucopointManager.R
 import com.pucosa.pucopointManager.databinding.PucopointListBinding
 import com.pucosa.pucopointManager.databinding.SinglerowBinding
 import com.pucosa.pucopointManager.models.Pucopoint
+import com.pucosa.pucopointManager.roomDatabase.AppDatabase
 import com.pucosa.pucopointManager.ui.newOnboarding.pages.recycle.CustomAdapter
+import kotlinx.coroutines.launch
 
 
 class PucopointList : Fragment() {
@@ -51,6 +54,8 @@ class PucopointList : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        deletePreviousDatabase()
+
         navController = Navigation.findNavController(view)
         bottomNavigationView?.itemIconTintList = null
         binding.bottomAppBar.menu.findItem(R.id.notification).setOnMenuItemClickListener {
@@ -72,10 +77,19 @@ class PucopointList : Fragment() {
 
     }
 
+    private fun deletePreviousDatabase() {
+        val db = AppDatabase.getDatabase(context!!)
+        viewLifecycleOwner.lifecycleScope.launch{
+            db.shopkeeperDatabaseMethods().deleteShopLocationrInfo()
+            db.shopkeeperDatabaseMethods().deleteShopLocationrInfo()
+            db.shopkeeperDatabaseMethods().deleteShop()
+            db.shopkeeperDatabaseMethods().deleteAadhaar()
+            db.shopkeeperDatabaseMethods().deleteSignature()
+        }
+    }
 
 
-
-        private fun setListAdapter() {
+    private fun setListAdapter() {
 
         val query = Firebase.firestore.collection("pucopoints")
             .whereEqualTo("manager", Firebase.auth.currentUser!!.uid)

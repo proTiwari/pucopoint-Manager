@@ -62,7 +62,6 @@
                     android:layout_height="match_parent"
                     android:layout_alignParentTop="true"
                     android:layout_marginEnd="16dp"
-                        android:text="@={``+data.data.lat}"
                     android:hint="latitude"
                     android:inputType="numberDecimal" />
 
@@ -113,7 +112,6 @@
                     android:layout_alignParentTop="true"
                     android:layout_marginTop="0dp"
                     android:layout_marginEnd="16dp"
-                    android:text="@={data.data.country}"
                     android:hint="country."
                     android:inputType="text" />
 
@@ -133,7 +131,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
-                    android:text="@={data.data.state}"
                     android:layout_marginTop="0dp"
                     android:layout_marginEnd="16dp"
                     android:hint="state"
@@ -154,7 +151,6 @@
                     android:id="@+id/city"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@={data.data.city}"
                     android:layout_alignParentTop="true"
                     android:layout_marginTop="0dp"
                     android:layout_marginEnd="16dp"
@@ -178,7 +174,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
-                    android:text="@={data.data.pincode}"
                     android:layout_marginTop="0dp"
                     android:layout_marginEnd="16dp"
                     android:hint="pincode"
@@ -201,7 +196,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
-                    android:text="@={data.data.streetAddress}"
                     android:layout_marginTop="0dp"
                     android:layout_marginEnd="16dp"
                     android:hint="Street address"

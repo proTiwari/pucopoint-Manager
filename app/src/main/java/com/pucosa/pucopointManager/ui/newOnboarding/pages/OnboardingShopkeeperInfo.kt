@@ -84,7 +84,99 @@ class OnboardingShopkeeperInfo : Fragment() {
             altlaunchCountryCodePicker(requireContext())
         }
 
-        setOnClickListeners()
+        binding.proceedButton.setOnClickListener {
+            huckup = true
+            if (CheckAllFields() && shopkeeperUri.toString() !="") {
+                val Name = binding.Name.text.toString()
+                val Email = binding.email.text.toString()
+                username = Email.split('@')[0]
+                if(binding.Phone.length()>10){
+                    var count = 1
+                    var la = ""
+                    val le = binding.countryCodeInput.text.toString().length
+                    for(i in binding.Phone.text.toString()){
+                        la += i
+                        if(count == le){
+                            break
+                        }
+                        count += 1
+                    }
+                    if(la != binding.countryCodeInput.text.toString()){
+                        Toast.makeText(requireContext(),"invalid country code $la", Toast.LENGTH_LONG).show()
+                        huckup = false
+                    }else{
+                        Phone = binding.Phone.text.toString()
+                        phoneNum = binding.Phone.text.toString()
+                        phoneCountryCode = binding.countryCodeInput.text.toString()
+                    }
+                    if( (binding.Phone.text.toString().length - binding.countryCodeInput.text.toString().length) != 10){
+                        val b = binding.Phone.text.toString().length
+                        val a = binding.countryCodeInput.text.toString().length
+                        Toast.makeText(requireContext(),"invalid phone number or country code $b - $a", Toast.LENGTH_LONG).show()
+                        huckup = false
+                    }
+                }else{
+                    Phone = binding.countryCodeInput.text.toString() + binding.Phone.text.toString()
+                    phoneNum = binding.Phone.text.toString()
+                    phoneCountryCode = binding.countryCodeInput.text.toString()
+                }
+                if(binding.AlternatePhone.length()>10){
+                    var count = 1
+                    var la = ""
+                    val le = binding.AltCountryCodeInput.text.toString().length
+                    for(i in binding.AlternatePhone.text.toString()){
+                        la += i
+                        if(count == le){
+                            break
+                        }
+                        count += 1
+                    }
+                    if(la != binding.AltCountryCodeInput.text.toString()){
+                        Toast.makeText(requireContext(),"invalid country code alt $la", Toast.LENGTH_LONG).show()
+
+                        huckup = false
+                    }else{
+                        AltPhone =binding.AlternatePhone.text.toString()
+                        altNum = binding.AlternatePhone.text.toString()
+                        altCountryCode = binding.AltCountryCodeInput.text.toString()
+                    }
+                    if( (binding.AlternatePhone.text.toString().length - binding.AltCountryCodeInput.text.toString().length) != 10){
+                        val b = binding.AlternatePhone.text.toString().length
+                        val a = binding.AltCountryCodeInput.text.toString().length
+                        Toast.makeText(requireContext(),"invalid phone number or country code $b - $a", Toast.LENGTH_LONG).show()
+                        huckup = false
+                    }
+                } else{
+                    AltPhone = binding.AltCountryCodeInput.text.toString() + binding.AlternatePhone.text.toString()
+                    altNum = binding.AlternatePhone.text.toString()
+                    altCountryCode = binding.AltCountryCodeInput.text.toString()
+                }
+                if (huckup){
+                    if(AltPhone != "" && Phone != ""){
+                        catchData(
+                            Name,
+                            Email,
+                            Phone,
+                            AltPhone,
+                            shopkeeperUri.toString(),
+                            username,
+                            phoneCountryCode,
+                            phoneNum,
+                            altCountryCode,
+                            altNum
+                        )
+                        val direction = OnboardingShopkeeperInfoDirections.actionOnboardingShopkeeperInfoToOnboardingShopInfo()
+                        navController!!.navigate(direction)
+                        closeKeyboard()
+                    }else{
+                        Toast.makeText(requireContext(),"something went wrong", Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
+            if(shopkeeperUri.toString() ==""){
+                Toast.makeText(requireContext(),"Image is not selected",Toast.LENGTH_LONG).show()
+            }
+        }
         isValidEmail(binding.email.toString())
         isValidPhoneNumber(binding.Phone)
         initImageCaptureManager()
@@ -129,134 +221,7 @@ class OnboardingShopkeeperInfo : Fragment() {
     }
 
     private fun setOnClickListeners() {
-        binding.proceedButton.setOnClickListener {
-        if (CheckAllFields() && shopkeeperUri.toString() !="") {
-                val Name = binding.Name.text.toString()
-                val Email = binding.email.text.toString()
-                username = Email.split('@')[0]
 
-
-
-            if(binding.Phone.length()>10){
-                var count = 1
-                var la = ""
-                val le = binding.countryCodeInput.text.toString().length
-                for(i in binding.Phone.text.toString()){
-                    la += i
-                    if(count == le){
-                        break
-                    }
-                    count += 1
-                }
-                if(la != binding.countryCodeInput.text.toString()){
-                    Toast.makeText(requireContext(),"invalid country code $la", Toast.LENGTH_LONG).show()
-
-                    huckup = false
-                }else{
-                    Phone = binding.Phone.text.toString()
-                    phoneNum = binding.Phone.text.toString()
-                    phoneCountryCode = binding.countryCodeInput.text.toString()
-                }
-                if( (binding.Phone.text.toString().length - binding.countryCodeInput.text.toString().length) != 10){
-                    val b = binding.Phone.text.toString().length
-                    val a = binding.countryCodeInput.text.toString().length
-                    Toast.makeText(requireContext(),"invalid phone number or country code $b - $a", Toast.LENGTH_LONG).show()
-
-                    huckup = false
-                }
-            }else{
-                Phone = binding.countryCodeInput.text.toString() + binding.Phone.text.toString()
-                phoneNum = binding.Phone.text.toString()
-                phoneCountryCode = binding.countryCodeInput.text.toString()
-            }
-
-            if(binding.AlternatePhone.length()>10){
-                var count = 1
-                var la = ""
-                val le = binding.AltCountryCodeInput.text.toString().length
-                for(i in binding.AlternatePhone.text.toString()){
-                    la += i
-                    if(count == le){
-                        break
-                    }
-                    count += 1
-                }
-                if(la != binding.AltCountryCodeInput.text.toString()){
-                    Toast.makeText(requireContext(),"invalid country code alt $la", Toast.LENGTH_LONG).show()
-
-                    huckup = false
-                }else{
-                    AltPhone =binding.AlternatePhone.text.toString()
-                    altNum = binding.AlternatePhone.text.toString()
-                    altCountryCode = binding.AltCountryCodeInput.text.toString()
-                }
-                if( (binding.AlternatePhone.text.toString().length - binding.AltCountryCodeInput.text.toString().length) != 10){
-                    val b = binding.AlternatePhone.text.toString().length
-                    val a = binding.AltCountryCodeInput.text.toString().length
-                    Toast.makeText(requireContext(),"invalid phone number or country code $b - $a", Toast.LENGTH_LONG).show()
-
-                    huckup = false
-                }
-            } else{
-                AltPhone = binding.AltCountryCodeInput.text.toString() + binding.AlternatePhone.text.toString()
-                altNum = binding.AlternatePhone.text.toString()
-                altCountryCode = binding.AltCountryCodeInput.text.toString()
-            }
-
-
-
-
-
-
-            if (huckup){
-                if(AltPhone != "" && Phone != ""){
-
-
-                 catchData(
-                     Name,
-                     Email,
-                     Phone,
-                     AltPhone,
-                     shopkeeperUri.toString(),
-                     username,
-                     phoneCountryCode,
-                     phoneNum,
-                     altCountryCode,
-                     altNum
-                  )
-
-
-//                    viewModel.shopkeeperDetailsChanged(
-//                        Name,
-//                        Email,
-//                        Phone,
-//                        AltPhone,
-//                        shopkeeperUri.toString(),
-//                        username,
-//                        phoneCountryCode,
-//                        phoneNum,
-//                        altCountryCode,
-//                        altNum
-//                    )
-
-                    val direction = OnboardingShopkeeperInfoDirections.actionOnboardingShopkeeperInfoToOnboardingShopInfo()
-                    navController!!.navigate(direction)
-                    closeKeyboard()
-                }else{
-                    Toast.makeText(requireContext(),"something went wrong", Toast.LENGTH_LONG).show()
-                }
-
-            }
-            else{
-//                Toast.makeText(requireContext(),"invalid phone number or country code", Toast.LENGTH_LONG).show()
-            }
-
-
-        }
-            if(shopkeeperUri.toString() ==""){
-                Toast.makeText(requireContext(),"Image is not selected",Toast.LENGTH_LONG).show()
-            }
-        }
     }
 
     private fun catchData(
